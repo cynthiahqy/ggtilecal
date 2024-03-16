@@ -1,0 +1,16 @@
+Package: ggtilecal
+Title: Package for creating interactive and static overview calendars using tiles
+Version: 0.0.0.9000
+Authors@R: 
+    person("Cynthia", "Huang", , "cynthia.huang@monash.edu", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    lubridate,
+    rlang
+Suggests: 
+    charlatan

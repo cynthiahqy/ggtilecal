@@ -69,11 +69,11 @@ make_months <- function(
 #'
 #' @examples
 remove_overlaps <- function(
-    .data, date_col, sort_col,
+    .data, date_col, order_by,
     method = c("first", "last", "random")) {
     x <- .data |>
         dplyr::group_by({{ date_col }}) |>
-        dplyr::arrange({{ sort_col }})
+        dplyr::arrange({{ order_by }})
 
     switch(method,
         first = {
@@ -88,55 +88,71 @@ remove_overlaps <- function(
     )
 }
 
+calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"),  week_start = 1){
+  .data |> dplyr::mutate(
+    ct_year = year({{ date_col }}),
+    ct_month_label = month({{ date_col }},
+                           label = TRUE,
+                           locale = locale
+    ),
+    ct_wday_label = wday({{ date_col }},
+                         label = TRUE,
+                         local = locale,
+                         week_start = week_start
+    ),
+    ct_mday = mday({{ date_col }}),
+    ct_wday = wday({{ date_col }}, week_start = week_start),
+    ct_month_week = (5 + day({{ date_col }}) +
+                       wday(floor_date({{ date_col }}, "month"), week_start = week_start)) %/% 7,
+    ct_is_weekend = ifelse(wday({{ date_col }}, week_start = 1) %in% c(6, 7), TRUE, FALSE)
+  )
+}
 
 #' Fill out event calendar with missing days
 #'
-#' @param .data 
-#' @param date_col 
-#' @param cal_range 
-#' @param unit 
+#' @param .data
+#' @param date_col
+#' @param cal_range
+#' @param unit
 #'
 #' @return
 #' @export
 #'
-#' @examples demo_events(20) |>
-#' mutate(event_duration = difftime(end, start, unit = "days")) |>
-#' reframe_intervals(start, end) |>
-#' group_by(unit_date) |>
-#' arrange(unit_date) |>
-#' remove_overlaps(unit_date, event_duration, "first") |>
-#' fill_calendar(unit_date)
-fill_calendar <- function(.data, date_col, cal_range = NULL, unit = "day") {
-    date_col_str <- rlang::englue("{{date_col}}")
+#' @examples 
+#' library(dplyr)
+#' demo_events(20) |>
+#'   mutate(event_duration = difftime(end, start, unit = "days")) |>
+#'   reframe_intervals(start, end) |>
+#'   group_by(unit_date) |>
+#'   arrange(unit_date) |>
+#'   remove_overlaps(unit_date, event_duration, "first") |>
+#'   fill_calendar(unit_date)
+#'
+#' @importFrom lubridate year month day wday mday floor_date
+fill_calendar <- function(.data, date_col, cal_range = NULL,
+                          unit = "day", locale = Sys.getlocale("LC_TIME"), week_start = 1) {
+  date_col_str <- rlang::englue("{{date_col}}")
 
-    if (dplyr::is_grouped_df(.data)) {
-        grouping_vars <- dplyr::group_vars(.data)
-    }
-    other_cols <- setdiff(names(.data), date_col_str)
+  # event_units <- .data |>
+  #   mutate(ct_type = "event")
+  # if (dplyr::is_grouped_df(.data)) {
+  #   grouping_vars <- dplyr::group_vars(.data)
+  # }
+  # other_cols <- setdiff(names(.data), date_col_str)
 
-    dates <- .data[[rlang::englue("{{date_col}}")]]
-    padding_units <- make_months(
-        min(dates), max(dates),
-        dates_to = date_col_str,
-        expand = c(0, 0)
-    )
+  dates <- .data[[rlang::englue("{{date_col}}")]]
+  padding_units <- make_months(
+    min(dates), max(dates),
+    dates_to = date_col_str,
+    expand = c(0, 0))
+  # ) |> 
+  #   dplyr::mutate(ct_type = "pad")
 
-    ## TODO: overlaps check
+  ## TODO: overlaps check
 
-    padding_units |>
-        dplyr::anti_join(.data, by = c(date_col_str)) |>
-        dplyr::bind_rows(.data) |>
-        dplyr::mutate(
-            Year = lubridate::year({{ date_col }}),
-            Month = lubridate::month({{ date_col }}, label = TRUE),
-            Day = lubridate::wday({{ date_col }}, label = TRUE, week_start = 1),
-            mday = lubridate::mday({{ date_col }}),
-            Month_week = (5 + lubridate::day({{ date_col }}) +
-                lubridate::wday(lubridate::floor_date({{ date_col }}, "month"), week_start = 1)) %/% 7,
-            wday_no = lubridate::wday({{ date_col }})
-        ) |>
-        dplyr::mutate(
-            is_weekend = ifelse(wday_no %in% c(7, 1), TRUE, FALSE)
-        ) |>
-        dplyr::arrange({{ date_col }})
+  padding_units |>
+    dplyr::anti_join(.data, by = c(date_col_str)) |>
+    dplyr::bind_rows(.data) |>
+    calc_calendar_vars({{ date_col }}) |>
+    dplyr::arrange({{ date_col }})
 }

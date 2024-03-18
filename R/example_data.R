@@ -51,8 +51,8 @@ demo_events <- function(
     event_duration <- sapply(event_max_durations + 1, sample.int, size = 1) - 1
     tibble::tibble(
         start = event_start_dates,
-        max_duration = event_max_durations,
-        duration = event_duration,
+        # max_duration = event_max_durations,
+        # duration = event_duration,
         end = event_start_dates + event_duration,
         details = paste("Event", seq(n_events)),
         emoji = emoji::zoo(n_events)

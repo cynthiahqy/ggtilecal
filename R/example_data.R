@@ -82,27 +82,3 @@ fill_calendar <- function(event_days, padding_days) {
         arrange(date)
 }
 
-# This works!
-# date_handler <- list(Date = function(x) as.character(x))
-## yaml::as.yaml(list(date = as.Date("2012-10-10")), handlers = date_handler)
-# So does this
-## my_tbl <- tibble::tibble(xdate = as.Date("2012-10-10"))
-## yaml::as.yaml(my_tbl, handlers = date_handler)
-# But not this
-## yaml::as.yaml(my_tbl, column.major = FALSE, handlers = date_handler)
-## This also does the weird number conversion
-# purrr::transpose(my_tbl)
-## but not if you do as.list() first
-# as.list(my_tbl) |> purrr::list_transpose(simplify = FALSE)
-## what about logical handlers?
-# my_tbl$bool <- c(TRUE, FALSE)
-# verbatim_logical <- function(x) {
-#   result <- tolower(as.logical(x))
-#   class(result) <- "verbatim"
-#   return(result)
-# }
-# yml_handlers <- c(date_handler, list(logical = verbatim_logical))
-## BAD
-# my_tbl |> yaml::as.yaml(handlers = yml_handlers, column.major = FALSE)
-## Still
-# my_tbl |> yaml::as.yaml(handlers = yml_handlers, column.major = TRUE)

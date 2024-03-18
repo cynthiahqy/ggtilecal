@@ -56,28 +56,4 @@ demo_events <- function(
         details = paste("Event", seq(n_events)),
         emoji = emoji::zoo(n_events)
     )
-
-
-    # dtp <- charlatan::DateTimeProvider$new()
-    # as.Date(dtp$date_time_between(start_date, end_date))
 }
-
-fill_calendar <- function(event_days, padding_days) {
-    padding_days |>
-        anti_join(event_days, by = "date") |>
-        bind_rows(event_days) |>
-        mutate(
-            Year = year(date),
-            Month = month(date, label = TRUE),
-            Day = wday(date, label = TRUE, week_start = 1),
-            mday = mday(date),
-            Month_week = (5 + day(date) +
-                wday(floor_date(date, "month"), week_start = 1)) %/% 7,
-            wday_no = wday(date)
-        ) |>
-        mutate(
-            is_weekend = ifelse(wday_no %in% c(7, 1), TRUE, FALSE)
-        ) |>
-        arrange(date)
-}
-

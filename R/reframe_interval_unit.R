@@ -1,8 +1,7 @@
 # used
 
 reframe_intervals <- function(.data, start, end, unit = "day") {
-    grouping_vars <- dplyr::group_vars(.data)
-    if (!is_empty(grouping_vars)) {
+    if (dplyr::is_grouped_df(.data)) {
         x_grpd <- .data
     } else {
         interval_vars <- sapply(rlang::enquos(start, end), rlang::as_name)

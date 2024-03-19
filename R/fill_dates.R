@@ -108,6 +108,35 @@ calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"
   )
 }
 
+
+# demo_events(20) |>
+#     mutate(event_duration = difftime(end, start, unit = "days")) |>
+#     reframe_intervals(start, end) |>
+#     group_by(unit_date) |>
+#     arrange(unit_date) |>
+#     remove_overlaps(unit_date, event_duration, "first") |>
+#     fill_cal_list(unit_date)
+fill_cal_list <- function(.data, date_col, cal_range = NULL,
+                          unit = "day", locale = Sys.getlocale("LC_TIME"), week_start = 1) {
+  out <- list()
+  date_col_str <- rlang::englue("{{date_col}}")
+  x_dates <- .data[[rlang::englue("{{date_col}}")]]
+
+  out$.padding_units <- make_months(
+    min(x_dates), max(x_dates),
+    dates_to = date_col_str,
+    expand = c(0, 0)) |>
+    dplyr::anti_join(.data, by = c(date_col_str)) |>
+    calc_calendar_vars({{ date_col }})
+  
+  out$.event_units <- .data |>
+    calc_calendar_vars({{ date_col }})
+  
+  out$.merged_units <- dplyr::bind_rows(out$.padding_units, out$.event_units)
+  
+  return(out)
+}
+
 #' Fill out event calendar with missing days
 #'
 #' @param .data
@@ -131,28 +160,11 @@ calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"
 #' @importFrom lubridate year month day wday mday floor_date
 fill_calendar <- function(.data, date_col, cal_range = NULL,
                           unit = "day", locale = Sys.getlocale("LC_TIME"), week_start = 1) {
-  date_col_str <- rlang::englue("{{date_col}}")
-
-  # event_units <- .data |>
-  #   mutate(ct_type = "event")
-  # if (dplyr::is_grouped_df(.data)) {
-  #   grouping_vars <- dplyr::group_vars(.data)
-  # }
-  # other_cols <- setdiff(names(.data), date_col_str)
-
-  dates <- .data[[rlang::englue("{{date_col}}")]]
-  padding_units <- make_months(
-    min(dates), max(dates),
-    dates_to = date_col_str,
-    expand = c(0, 0))
-  # ) |> 
-  #   dplyr::mutate(ct_type = "pad")
-
   ## TODO: overlaps check
-
+  cal_list <- fill_cal_list(.data, {{date_col}}, cal_range,
+                            unit = "day", locale = Sys.getlocale("LC_TIME"), week_start = 1)
+  padding_units <- cal_list[[1]]
   padding_units |>
-    dplyr::anti_join(.data, by = c(date_col_str)) |>
     dplyr::bind_rows(.data) |>
-    calc_calendar_vars({{ date_col }}) |>
     dplyr::arrange({{ date_col }})
 }

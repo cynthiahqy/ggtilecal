@@ -6,14 +6,12 @@
 #' @param n_events 
 #' @param date_range 
 #' @param max_duration 
-#' @param format 
 #'
 #' @return tibble
 #' @export
 #'
 #' @examples
-#' demo_events(30) |>
-#'   dplyr::arrange(desc(duration))
+#' demo_events(30)
 demo_events <- function(
     n_events = 5,
     date_range = NULL,

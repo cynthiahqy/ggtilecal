@@ -50,12 +50,10 @@ You can also embed plots, for example:
 In that case, don’t forget to commit and push the resulting figure
 files, so they display on GitHub and CRAN.
 
-## Related packages
+## Related packages & inspiration
 
 - [ ] [ggTimeSeries](https://github.com/AtherEnergy/ggTimeSeries)
 - [ ] [ggweekly](https://github.com/gadenbuie/ggweekly)
-
-Code - \[ \]
-[ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R) - \[
-\]
-[calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [ ] [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [ ]
+  [calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)

@@ -11,9 +11,11 @@ make_empty_month_days(
 )
 }
 \arguments{
-\item{cal_range}{}
+\item{cal_range}{\code{c(start,end)} range for which to create sequence of calendar units}
 
-\item{dates_to}{}
+\item{dates_to}{string name for column to output calendar unit dates}
+
+\item{adjust_months}{vector specifying how many months to add}
 }
 \description{
 Creates empty day units using \code{make_empty_units()} that span the months

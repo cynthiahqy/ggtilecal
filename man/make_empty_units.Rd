@@ -11,8 +11,7 @@ make_empty_units(cal_range, dates_to = "unit_date", cal_unit = "day")
 
 \item{dates_to}{string name for column to output calendar unit dates}
 
-\item{cal_unit}{increment of calendar sequence:
-\verb{"day", "week", "month", "quarter", "year"}. See \code{\link[base]{seq.Date}}}
+\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
 }
 \value{
 tibble

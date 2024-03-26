@@ -1,21 +1,5 @@
-requireNamespace("ggplot2", quietly = TRUE)
-
-add_styling_layers <- function(.ggplot) {
-  list(
-    ggplot2::scale_y_reverse(),
-    ggplot2::coord_fixed(expand = TRUE),
-  )
-}
-
-set_scale_coord <- function() {
-  list(
-    ggplot2::scale_y_reverse(),
-    ggplot2::scale_x_discrete(position = "top"),
-    ggplot2::coord_fixed(expand = TRUE)
-  )
-}
-
-#' @importFrom ggplot2 element_blank element_rect element_text %+replace%
+#' @importFrom ggplot2 element_blank element_rect element_text
+#' unit margin %+replace%
 theme_ggtilecal <- function(...) {
   # starts with theme_bw then modify
   ggplot2::theme_bw(...) %+replace%
@@ -67,52 +51,64 @@ if (FALSE) {
   base_plot + layers_theme
 }
 
-## base calendar
-#' Title
+#' Make Monthly Calendar Facets
 #'
-#' Generates base ggtilecal with monthly facets by:
+#' Generates calendar with monthly facets by:
 #' - Padding event list with any missing days
 #' - Calculating variables for calendar layout
-#' Returns a ggplot with the following layers specified (in order):
+#' - Returning a ggplot object as per Details.
+#' 
+#' Returns a ggplot with the following fixed layers specified (in order):
 #' - `aes()` mapping using calculated vars:
-#'    - `x` is day of week, `y` is week in month
-#' - `geom_tile()`, `geom_text()` to label each day
+#'    - `x` is day of week, `y` is week in month, `label` is day of month
 #' - `facet_wrap()` by month
 #' - `labs()` to remove calculated vars axis labels
-#' as well as (by default with `.set_scale_coord`):
+#' 
+#' and default customisable layers:
+#' - `geom_tile()`, `geom_text()` to label each day
 #' - `scale_y_reverse()` to order day in month correctly
 #' - `scale_x_discrete()` to position weekday labels
 #' - `coord_fixed()` to square each tile
+#' - `theme_ggtilecal()` to apply sensible theme defaults
+#' 
+#' To modify layers use `.geom`, `.scale_coord`, `.theme` or `.layers`.
+#' This can be used to add interactive geoms (e.g. from `ggiraph`)
 #'
-#' To modify
-#'
+#' @inheritParams lubridate::wday
+#' @inheritParams ggplot2::facet_wrap
 #' @param .events_long
 #' @param date_col
-#' @param cal_range
-#' @param unit
-#' @param locale
-#' @param week_start
-#' @param nrow
-#' @param ncol
-#' @param .set_scale_coord
+#' @param cal_range WIP/TODO
+#' @param unit TODO rename to `tile_unit`
+#' @param .geom,.scale_coord,.theme,.layers
+#'    Customisable lists of ggplot2 layers to add to the plot.
+#'    An empty list() leaves the plot unmodified.
 #'
-#' @return
+#' @return ggplot
 #' @export
 #'
 #' @examples
 #' library(dplyr)
 #' library(ggplot2)
 #' demo_events(20) |>
-#'   mutate(event_duration = difftime(end, start, unit = "days")) |>
 #'   reframe_intervals(start, end) |>
 #'   group_by(unit_date) |>
-#'   arrange(unit_date) |>
-#'   remove_overlaps(unit_date, event_duration, "first") |>
+#'   slice_min(order_by = duration) |>
 #'   gg_facet_wrap_months(unit_date)
 #' @importFrom ggplot2 aes geom_tile geom_text facet_wrap labs
+#' scale_y_reverse scale_x_discrete coord_fixed
 gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
                                  unit = "day", locale = NULL, week_start = NULL,
-                                 nrow = NULL, ncol = NULL, .set_scale_coord = TRUE) {
+                                 nrow = NULL, ncol = NULL,
+                                 .geom = list(geom_tile(), 
+                                               geom_text(nudge_y = 0.25)),
+                                 .scale_coord = list(
+                                   scale_y_reverse(),
+                                   scale_x_discrete(position = "top"),
+                                   coord_fixed(expand = TRUE)
+                                 ),
+                                 .theme = list(theme_ggtilecal()),
+                                 .layers = list()) {
   # date_col_str <- rlang::englue("{{date_col}}")
   # if(anyDuplicated(.events_long[[date_col_str]])){
   #   rlang::warn("More than one event per {.var {unit}}")
@@ -120,48 +116,13 @@ gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
 
   cal_data <- fill_cal_list(.events_long, {{ date_col }})
 
-  # updates global defaults :(
-  ## ggplot2::update_geom_defaults("tile", list(fill = "transparent", color = "grey70", alpha = 0.2))
-
   base_plot <- cal_data$.merged_units |>
-    ggplot2::ggplot(mapping = aes(x = ct_wday_label, y = ct_month_week)) +
-    geom_tile() +
-    geom_text(aes(label = ct_mday), nudge_y = 0.25) +
-    facet_wrap(vars(ct_month_label), axes = "all_x", nrow = nrow, ncol = ncol) +
-    labs(y = NULL, x = NULL)
-
-  if (.set_scale_coord) {
-    base_plot +
-      set_scale_coord()
-  } else {
-    base_plot
-  }
-}
-
-
-if (FALSE) {
-  full_cal_merged <- bind_rows(full_cal_list)
-
-  g_base <- ggplot(
-    data = full_cal_merged,
-    mapping = aes(x = ct_wday_label, y = ct_month_week)
-  ) +
-    geom_tile(alpha = 0.2, color = "grey70") +
-    facet_wrap(vars(ct_month_label), axes = "all_x") +
-    geom_text(aes(label = ct_mday), nudge_y = 0.25) +
-    scale_y_reverse() +
-    scale_x_discrete(position = "top")
-
-  g_base_themed <- g_base +
-    layers_theme +
-    theme(strip.placement = "outside") +
-    coord_equal()
-
-  g_base_themed +
-    geom_text(
-      data = full_cal_list$.event_units,
-      mapping = aes(label = emoji)
-    )
-
-  # ggsave("static.png")
+    ggplot2::ggplot(mapping = aes(x = TC_wday_label,
+                                  y = TC_month_week,
+                                  label = TC_mday)) +
+    facet_wrap(vars(TC_month_label), axes = "all_x", nrow = nrow, ncol = ncol) +
+    labs(y = NULL, x = NULL) +
+    .geom +
+    .scale_coord +
+    .theme
 }

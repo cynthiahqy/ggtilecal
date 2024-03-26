@@ -65,49 +65,54 @@ make_months <- function(
 #' @param method 
 #'
 #' @return
-#' @export
 #'
 #' @examples
-remove_overlaps <- function(
-    .data, date_col, order_by,
-    method = c("first", "last", "random")) {
+slice_one_per_date <- function(
+    .data, date_col, arrange_by,
+    method = c("head", "tail", "sample")) {
     x <- .data |>
         dplyr::group_by({{ date_col }}) |>
-        dplyr::arrange({{ order_by }})
+        dplyr::arrange({{ arrange_by }})
 
     switch(method,
-        first = {
+        head = {
             dplyr::slice_head(x, n = 1)
         },
-        last = {
+        tail = {
             dplyr::slice_tail(x, n = 1)
         },
-        random = {
+        sample = {
             dplyr::slice_sample(x, n = 1)
         }
-    )
+    ) |> dplyr::ungroup()
 }
 
 calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"),  week_start = 1){
   .data |> dplyr::mutate(
-    ct_year = year({{ date_col }}),
-    ct_month_label = month({{ date_col }},
+    TC_year = year({{ date_col }}),
+    TC_month_label = month({{ date_col }},
                            label = TRUE,
                            locale = locale
     ),
-    ct_wday_label = wday({{ date_col }},
+    TC_wday_label = wday({{ date_col }},
                          label = TRUE,
                          local = locale,
                          week_start = week_start
     ),
-    ct_mday = mday({{ date_col }}),
-    ct_wday = wday({{ date_col }}, week_start = week_start),
-    ct_month_week = (5 + day({{ date_col }}) +
+    TC_mday = mday({{ date_col }}),
+    TC_wday = wday({{ date_col }}, week_start = week_start),
+    TC_month_week = (5 + day({{ date_col }}) +
                        wday(floor_date({{ date_col }}, "month"), week_start = week_start)) %/% 7,
-    ct_is_weekend = ifelse(wday({{ date_col }}, week_start = 1) %in% c(6, 7), TRUE, FALSE)
+    TC_is_weekend = ifelse(wday({{ date_col }}, week_start = 1) %in% c(6, 7), TRUE, FALSE)
   )
 }
 
+if (FALSE){
+  demo_events(20) |>
+    reframe_intervals(start, end) |>
+    slice_one_per_date(unit_date, duration, "head") |>
+    arrange(unit_date)
+}
 
 # demo_events(20) |>
 #     mutate(event_duration = difftime(end, start, unit = "days")) |>
@@ -150,11 +155,9 @@ fill_cal_list <- function(.data, date_col, cal_range = NULL,
 #' @examples 
 #' library(dplyr)
 #' demo_events(20) |>
-#'   mutate(event_duration = difftime(end, start, unit = "days")) |>
 #'   reframe_intervals(start, end) |>
 #'   group_by(unit_date) |>
-#'   arrange(unit_date) |>
-#'   remove_overlaps(unit_date, event_duration, "first") |>
+#'   slice_min(order_by = duration) |>
 #'   fill_calendar(unit_date)
 #'
 #' @importFrom lubridate year month day wday mday floor_date

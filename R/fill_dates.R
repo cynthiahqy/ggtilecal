@@ -38,16 +38,16 @@ make_empty_units <- function(cal_range, dates_to = "unit_date", cal_unit = "day"
 #'
 #' @examples make_months(c("2024-03-05", "2024-04-15"))
 make_empty_month_days <- function(
-    cal_range,
+    month_range,
     dates_to = "unit_date",
     adjust_months = c(-0, 0)) {
   
-    stopifnot(expand[[1]] <= 0)
-    stopifnot(expand[[2]] >= 0)
+    stopifnot(adjust_months[[1]] <= 0)
+    stopifnot(adjust_months[[2]] >= 0)
   
-    cal_range <- anytime::anydate(cal_range)
-    start_dt <- min(cal_range)
-    end_dt <- max(cal_range)
+    month_range <- anytime::anydate(month_range)
+    start_dt <- min(month_range)
+    end_dt <- max(month_range)
 
     start_month <- lubridate::add_with_rollback(
         e1 = lubridate::floor_date(start_dt, unit = "month"),
@@ -64,16 +64,16 @@ make_empty_month_days <- function(
 }
 
 #' Fill out event calendar with missing days
-fill_missing_units_list <- function(.data, date_col, cal_range = NULL,
+fill_missing_units_list <- function(.data, date_col, adjust_months = NULL,
                           cal_unit = "day") {
   out <- list()
   date_col_str <- rlang::englue("{{date_col}}")
   x_dates <- .data[[rlang::englue("{{date_col}}")]]
   
   out$.padding_units <- make_empty_month_days(
-    min(x_dates), max(x_dates),
+    month_range = c(min(x_dates), max(x_dates)),
     dates_to = date_col_str,
-    expand = c(0, 0)) |>
+    adjust_months = c(0, 0)) |>
     dplyr::anti_join(.data, by = c(date_col_str))
   
   out$.event_units <- .data
@@ -83,19 +83,21 @@ fill_missing_units_list <- function(.data, date_col, cal_range = NULL,
   return(out)
 }
 
-#' Fill out event calendar with missing days
+#' Fill out long format event table with missing dates
+#'
+#' Helper function for filling out event table with any missing calendar units.
 #'
 #' @param .data
+#' @param adjust_months 
+#' @param cal_unit 
 #' @param date_col
-#' @param cal_range
-#' @param unit
 #'
 #' @return tibble
 #' @export
 #'
 #' @examples 
-fill_missing_units <- function(.data, date_col, cal_range = NULL,
+fill_missing_units <- function(.data, date_col, adjust_months = NULL,
                                cal_unit = "day") {
-  filled <- fill_missing_units_list(.data, {{date_col}}, cal_range, cal_unit)
+  filled <- fill_missing_units_list(.data, {{date_col}}, adjust_months, cal_unit)
   filled[['.merged_units']]
 }

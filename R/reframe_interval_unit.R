@@ -16,7 +16,8 @@
 #'
 #' @return See return value of \link[dplyr]{reframe}
 #' @export
-#'
+#' @importFrom dplyr group_by pick filter n
+#' 
 #' @examples
 reframe_events <- function(.data, event_start, event_end, dates_to = "unit_date", cal_unit = "day") {
     if (dplyr::is_grouped_df(.data)) {
@@ -26,7 +27,7 @@ reframe_events <- function(.data, event_start, event_end, dates_to = "unit_date"
         grouping_vars <- setdiff(names(.data), interval_vars)
         cli::cli_inform("Reframing using grouping by: {.var {grouping_vars}}")
         x_grpd <- .data |>
-            dplyr::group_by(dplyr::pick(tidyselect::all_of(grouping_vars)))
+            dplyr::group_by(pick(tidyselect::all_of(grouping_vars)))
     }
 
     # check for dups (otherwise reframe will throw an error)

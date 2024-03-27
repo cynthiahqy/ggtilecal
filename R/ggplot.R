@@ -1,14 +1,16 @@
 #' Calculate variables for calendar layout
 #'
-#' @param .data 
-#' @param date_col 
-#' @param locale 
-#' @param week_start 
+#' Helper function for calculating calendar layout variables.
+#'
+#' @inheritParams lubridate::wday
+#' @param .data tibble or data frame containing dates to be plotted in calendar layout
+#' @param date_col column containing calendar unit dates
 #'
 #' @return tibble with additional calendar layout variables
 #' @export
 #'
 #' @examples 
+#' @importFrom lubridate year month day wday mday floor_date
 calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"),  week_start = 1){
   .data |> dplyr::mutate(
     TC_year = year({{ date_col }}),
@@ -29,12 +31,28 @@ calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"
   )
 }
 
-#' @importFrom ggplot2 element_blank element_rect element_text
-#' unit margin %+replace%
-theme_ggtilecal <- function(...) {
-  # starts with theme_bw then modify
-  ggplot2::theme_bw(...) %+replace%
-    ggplot2::theme(
+#' A modified version of `ggplot2::theme_bw()` for calendar layouts
+#'
+#' @inheritParams ggplot2::theme_bw
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' @importFrom ggplot2 theme theme_bw %+replace%
+#' element_blank element_rect element_text
+#' unit margin
+theme_bw_tilecal <- function(base_size = 11,
+                             base_family = "",
+                             base_line_size = base_size/22, 
+                             base_rect_size = base_size/22){
+  theme_bw(
+    base_size = base_size, 
+    base_family = base_family, 
+    base_line_size = base_line_size, 
+    base_rect_size = base_rect_size
+  ) %+replace% 
+    theme(
       plot.margin = margin(0, 0, 0, 0),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
@@ -49,63 +67,39 @@ theme_ggtilecal <- function(...) {
     )
 }
 
-if (FALSE) {
-  layers_theme <- list(
-    ggplot2::theme_bw(),
-    ggplot2::theme(
-      plot.margin = margin(0, 0, 0, 0),
-      panel.grid.major = element_blank(),
-      panel.grid.minor = element_blank(),
-      # panel.spacing = unit(0, "lines"),
-      panel.border = element_blank(),
-      axis.ticks = element_blank(),
-      axis.text.y = element_blank(),
-      strip.background = element_rect(fill = "grey95"),
-      strip.text = element_text(hjust = 0),
-      strip.placement = "outside"
-    )
-  )
-
-  events_long <-
-    demo_events(100) |>
-    mutate(event_duration = difftime(end, start, unit = "days")) |>
-    reframe_intervals(start, end) |>
-    group_by(unit_date) |>
-    arrange(unit_date) |>
-    remove_overlaps(unit_date, event_duration, "first")
-
-  base_plot <-
-    gg_facet_wrap_months(events_long, unit_date)
-
-  ## Why do these two things not return the same thing???
-  base_plot + theme_ggtilecal()
-  base_plot + layers_theme
-}
-
 #' Make Monthly Calendar Facets
 #'
 #' Generates calendar with monthly facets by:
-#' - Padding event list with any missing days
-#' - Calculating variables for calendar layout
+#' - Padding event list with any missing days via `fill_missing_units()`
+#' - Calculating variables for calendar layout via `calc_calendar_vars()`
 #' - Returning a ggplot object as per Details.
 #' 
-#' Returns a ggplot with the following fixed layers specified (in order):
-#' - `aes()` mapping using calculated vars:
+#' Returns a ggplot with the following fixed layers using calculated layout variables:
+#' - `aes()` mapping:
 #'    - `x` is day of week, `y` is week in month, `label` is day of month
 #' - `facet_wrap()` by month
-#' - `labs()` to remove calculated vars axis labels
+#' - `labs()` to remove axis labels for calculated layout variables
 #' 
 #' and default customisable layers:
-#' - `geom_tile()`, `geom_text()` to label each day
+#' - `geom_tile()`, `geom_text()` to label each day which inherit calculated variables
 #' - `scale_y_reverse()` to order day in month correctly
 #' - `scale_x_discrete()` to position weekday labels
 #' - `coord_fixed()` to square each tile
-#' - `theme_ggtilecal()` to apply sensible theme defaults
+#' - `theme_bw_tilecal()` to apply sensible theme defaults
 #' 
-#' To modify layers use `.geom`, `.scale_coord`, `.theme` or `.layers`.
+#' To modify layers alter the `.geom` and `.scale_coord`,
+#' which inherit the calculate layout mapping by default
+#' (via the ggplot2 `inherit.aes` argument).
+#' 
+#' To add layers use the ggplot `+` function as normal,
+#' or pass layers to the `.layers` argument.
 #' This can be used to add interactive geoms (e.g. from `ggiraph`)
+#' 
+#' To modify the theme, use the ggplot `+` function as normal,
+#' or add additional elements to the list in `.theme`.
+#' 
+#' To remove any of the optional layers, set the argument to any empty `list()`
 #'
-#' @inheritParams lubridate::wday
 #' @inheritParams ggplot2::facet_wrap
 #' @param .events_long
 #' @param date_col
@@ -113,7 +107,7 @@ if (FALSE) {
 #' @param unit TODO rename to `tile_unit`
 #' @param .geom,.scale_coord,.theme,.layers
 #'    Customisable lists of ggplot2 layers to add to the plot.
-#'    An empty list() leaves the plot unmodified.
+#'    An empty `list()` leaves the plot unmodified.
 #'
 #' @return ggplot
 #' @export
@@ -127,27 +121,30 @@ if (FALSE) {
 #'   slice_min(order_by = duration) |>
 #'   gg_facet_wrap_months(unit_date)
 #' @importFrom ggplot2 aes geom_tile geom_text facet_wrap labs
-#' scale_y_reverse scale_x_discrete coord_fixed
+#' scale_y_reverse scale_x_discrete coord_fixed vars
 gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
                                  unit = "day", locale = NULL, week_start = NULL,
                                  nrow = NULL, ncol = NULL,
-                                 .geom = list(geom_tile(), 
+                                 .geom = list(geom_tile(color = "grey70",
+                                                        fill = "transparent"), 
                                                geom_text(nudge_y = 0.25)),
                                  .scale_coord = list(
                                    scale_y_reverse(),
                                    scale_x_discrete(position = "top"),
                                    coord_fixed(expand = TRUE)
                                  ),
-                                 .theme = list(theme_ggtilecal()),
+                                 .theme = list(theme_bw_tilecal()),
                                  .layers = list()) {
   # date_col_str <- rlang::englue("{{date_col}}")
   # if(anyDuplicated(.events_long[[date_col_str]])){
   #   rlang::warn("More than one event per {.var {unit}}")
   # }
 
-  cal_data <- fill_cal_list(.events_long, {{ date_col }})
+  cal_data <- fill_missing_units(.events_long, {{ date_col }}) |>
+    calc_calendar_vars({{date_col}})
+  
 
-  base_plot <- cal_data$.merged_units |>
+  base_plot <- cal_data |>
     ggplot2::ggplot(mapping = aes(x = TC_wday_label,
                                   y = TC_month_week,
                                   label = TC_mday)) +
@@ -156,4 +153,6 @@ gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
     .geom +
     .scale_coord +
     .theme
+  
+  base_plot
 }

@@ -109,17 +109,14 @@ events_long |>
 But maybe we want to indicate which days are event days:
 
 ``` r
-events_long |>
+emoji_cal <- events_long |>
   gg_facet_wrap_months(unit_date) +
   geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE)
+
+emoji_cal
 ```
 
-<img src="man/figures/README-emoji-cal-events-1.svg" width="100%" />
-
-``` r
-
-#ggplot2::ggsave("static.png")
-```
+<img src="man/figures/README-emoji-cal-events-1.png" width="100%" />
 
 Additional rows are introduced within `gg_facet_wrap_months()` to plot
 the non-event days. Specify `na.rm = TRUE` on subsequent layers to
@@ -130,7 +127,8 @@ missing values originating in `events_long`.
 If the emojis are not rendering, try changing your graphics device. For
 knitr output this can be controlled using the `dev` chunk option. For
 previews in RStudio, change Settings \> General \> Graphics (e.g. to
-[AGG](https://ragg.r-lib.org/)).
+[AGG](https://ragg.r-lib.org/)). To save use something like
+`ggplot2::ggsave("ggtilecal.png", emoji_cal, height=3, width=9, dpi=300)`
 
 ## Add interactive elements
 

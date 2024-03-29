@@ -12,17 +12,26 @@ calc_calendar_vars(
 )
 }
 \arguments{
-\item{.data}{}
+\item{.data}{tibble or data frame containing dates to be plotted in calendar layout}
 
-\item{date_col}{}
+\item{date_col}{column containing calendar unit dates}
 
-\item{locale}{}
+\item{locale}{locale to use for day names. Default to current locale.}
 
-\item{week_start}{}
+\item{week_start}{day on which week starts following ISO conventions: 1 means Monday
+and 7 means Sunday (default). When \code{label = FALSE} and \code{week_start = 7}, the number
+returned for Sunday is 1, for Monday is 2, etc. When \code{label = TRUE}, the returned
+value is a factor with the first level being the week start (e.g. Sunday if
+\code{week_start = 7}). You can set \code{lubridate.week.start} option to control this
+parameter globally.}
 }
 \value{
 tibble with additional calendar layout variables
 }
 \description{
-Calculate variables for calendar layout
+Helper function for calculating calendar layout variables.
+}
+\examples{
+make_empty_month_days(c("2024-01-01", "2024-02-01")) |> 
+  calc_calendar_vars(unit_date)
 }

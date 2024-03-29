@@ -101,8 +101,8 @@ theme_bw_tilecal <- function(base_size = 11,
 #' To remove any of the optional layers, set the argument to any empty `list()`
 #'
 #' @inheritParams ggplot2::facet_wrap
-#' @param .events_long long format calendar event data
-#' @param date_col column containing calendar unit dates
+#' @inheritParams fill_missing_units
+#' @inheritParams calc_calendar_vars
 #' @param .geom,.scale_coord,.theme,.layers
 #'    Customisable lists of ggplot2 layers to add to the plot.
 #'    An empty `list()` leaves the plot unmodified.

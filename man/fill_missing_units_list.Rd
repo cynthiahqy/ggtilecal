@@ -4,7 +4,12 @@
 \alias{fill_missing_units_list}
 \title{Fill out event calendar with missing days}
 \usage{
-fill_missing_units_list(.data, date_col, cal_range = NULL, cal_unit = "day")
+fill_missing_units_list(
+  .data,
+  date_col,
+  adjust_months = NULL,
+  cal_unit = "day"
+)
 }
 \description{
 Fill out event calendar with missing days

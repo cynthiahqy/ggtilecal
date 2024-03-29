@@ -7,23 +7,22 @@
 gg_facet_wrap_months(
   .events_long,
   date_col,
-  cal_range = NULL,
-  unit = "day",
   locale = NULL,
   week_start = NULL,
   nrow = NULL,
   ncol = NULL,
-  .geom = list(geom_tile(), geom_text(nudge_y = 0.25)),
+  .geom = list(geom_tile(color = "grey70", fill = "transparent"), geom_text(nudge_y =
+    0.25)),
   .scale_coord = list(scale_y_reverse(), scale_x_discrete(position = "top"),
     coord_fixed(expand = TRUE)),
-  .theme = list(theme_ggtilecal()),
+  .theme = list(theme_bw_tilecal()),
   .layers = list()
 )
 }
 \arguments{
-\item{cal_range}{WIP/TODO}
+\item{.events_long}{long format calendar event data}
 
-\item{unit}{TODO rename to \code{tile_unit}}
+\item{date_col}{column containing calendar unit dates}
 
 \item{locale}{locale to use for day names. Default to current locale.}
 
@@ -37,7 +36,7 @@ parameter globally.}
 \item{nrow, ncol}{Number of rows and columns.}
 
 \item{.geom, .scale_coord, .theme, .layers}{Customisable lists of ggplot2 layers to add to the plot.
-An empty list() leaves the plot unmodified.}
+An empty \code{list()} leaves the plot unmodified.}
 }
 \value{
 ggplot
@@ -45,33 +44,43 @@ ggplot
 \description{
 Generates calendar with monthly facets by:
 \itemize{
-\item Padding event list with any missing days
-\item Calculating variables for calendar layout
+\item Padding event list with any missing days via \code{fill_missing_units()}
+\item Calculating variables for calendar layout via \code{calc_calendar_vars()}
 \item Returning a ggplot object as per Details.
 }
 }
 \details{
-Returns a ggplot with the following fixed layers specified (in order):
+Returns a ggplot with the following fixed layers using calculated layout variables:
 \itemize{
-\item \code{aes()} mapping using calculated vars:
+\item \code{aes()} mapping:
 \itemize{
 \item \code{x} is day of week, \code{y} is week in month, \code{label} is day of month
 }
 \item \code{facet_wrap()} by month
-\item \code{labs()} to remove calculated vars axis labels
+\item \code{labs()} to remove axis labels for calculated layout variables
 }
 
 and default customisable layers:
 \itemize{
-\item \code{geom_tile()}, \code{geom_text()} to label each day
+\item \code{geom_tile()}, \code{geom_text()} to label each day which inherit calculated variables
 \item \code{scale_y_reverse()} to order day in month correctly
 \item \code{scale_x_discrete()} to position weekday labels
 \item \code{coord_fixed()} to square each tile
-\item \code{theme_ggtilecal()} to apply sensible theme defaults
+\item \code{theme_bw_tilecal()} to apply sensible theme defaults
 }
 
-To modify layers use \code{.geom}, \code{.scale_coord}, \code{.theme} or \code{.layers}.
+To modify layers alter the \code{.geom} and \code{.scale_coord},
+which inherit the calculate layout mapping by default
+(via the ggplot2 \code{inherit.aes} argument).
+
+To add layers use the ggplot \code{+} function as normal,
+or pass layers to the \code{.layers} argument.
 This can be used to add interactive geoms (e.g. from \code{ggiraph})
+
+To modify the theme, use the ggplot \code{+} function as normal,
+or add additional elements to the list in \code{.theme}.
+
+To remove any of the optional layers, set the argument to any empty \code{list()}
 }
 \examples{
 library(dplyr)

@@ -24,8 +24,7 @@ fill_missing_units_list <- function(.data, date_col, adjust_months = NULL,
 
 #' @inheritParams make_empty_units
 #' @inheritParams make_empty_month_days
-#' @param .events_long
-#' @param adjust_months 
+#' @param .events_long long format calendar event data
 #'
 #' @return tibble
 #' @export

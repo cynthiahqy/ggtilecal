@@ -2,16 +2,25 @@
 % Please edit documentation in R/fill_dates.R
 \name{fill_missing_units}
 \alias{fill_missing_units}
-\title{Fill out event calendar with missing days}
+\title{Fill out long format event table with missing dates}
 \usage{
-fill_missing_units(.data, date_col, cal_range = NULL, cal_unit = "day")
+fill_missing_units(.data, date_col, adjust_months = NULL, cal_unit = "day")
 }
 \arguments{
-\item{unit}{}
+\item{adjust_months}{vector specifying how many months to add}
+
+\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
+
+\item{.events_long}{long format calendar event data}
 }
 \value{
 tibble
 }
 \description{
-Fill out event calendar with missing days
+Helper function for filling out event table with any missing calendar units.
+}
+\examples{
+demo_events(1) |>
+  reframe_events(start, end) |>
+  fill_missing_units(unit_date)
 }

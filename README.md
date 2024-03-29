@@ -6,49 +6,157 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `ggtilecal` is to produce customisable calendar layouts
-using ggplot2 tile geoms.
+The goal of `ggtilecal` is to easily produce customisable calendar
+layouts using ggplot2 tile geoms.
 
 ## Installation
 
 You can install the development version of ggtilecal like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("remotes")
+remotes::install_github("cynthiahqy/ggtilecal)
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+### Empty Calendar
 
 ``` r
 library(ggtilecal)
-## basic example code
+make_empty_month_days(c("2024-01-05", "2024-04-04")) |>
+  gg_facet_wrap_months(unit_date)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+<img src="man/figures/README-empty-calendar-1.png" width="100%" />
+
+### Customising empty calendars
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(ggplot2)
+make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
+  gg_facet_wrap_months(unit_date,
+                       .geom = list(
+                         geom_tile(color = "grey70",
+                                   fill = "transparent"),
+                         geom_text(nudge_y = 0.25,
+                                   color = "#6a329f")),
+                       .theme = list(
+                         theme_bw_tilecal(),
+                         theme(strip.background = element_rect(fill = "#d9d2e9")))
+                       )
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+<img src="man/figures/README-empty-calendar-custom-1.png" width="100%" />
 
-You can also embed plots, for example:
+### Adding more layers to the calendar: Event emojis!
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+Prepare event data in “long” form, which in this context refers to
+having one row per day of an event.
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+``` r
+set.seed(498)
+events <- demo_events(10)
+events
+#> # A tibble: 10 × 7
+#> # Rowwise: 
+#>    event_id title    start      end        duration emoji details               
+#>       <int> <chr>    <date>     <date>     <drtn>   <chr> <chr>                 
+#>  1        1 Event 1  2024-04-05 2024-04-07 3 days   🐟    Adipiscing mauris et …
+#>  2        2 Event 2  2024-04-13 2024-04-14 2 days   🐩    Sit aliquam feugiat p…
+#>  3        3 Event 3  2024-04-21 2024-04-21 1 days   🐨    Lorem placerat sagitt…
+#>  4        4 Event 4  2024-05-20 2024-05-25 6 days   🐚    Ipsum mollis fermentu…
+#>  5        5 Event 5  2024-05-31 2024-05-31 1 days   🦟    Consectetur malesuada…
+#>  6        6 Event 6  2024-06-07 2024-06-12 6 days   🐛    Sit bibendum porta ut…
+#>  7        7 Event 7  2024-06-08 2024-06-13 6 days   🦣    Lorem cursus sem cubi…
+#>  8        8 Event 8  2024-06-10 2024-06-14 5 days   🦖    Adipiscing fames magn…
+#>  9        9 Event 9  2024-06-12 2024-06-13 2 days   🐣    Amet ligula sociis ve…
+#> 10       10 Event 10 2024-06-22 2024-06-27 6 days   🐈‍⬛    Sit ridiculus id maec…
+```
+
+``` r
+events_long <- events |>
+  reframe_events(start, end) |>
+  dplyr::slice_min(order_by = duration, n = 1, by = unit_date)
+#> Reframing using grouping by: `event_id`, `title`, `duration`, `emoji`, and
+#> `details`
+events_long
+#> # A tibble: 29 × 6
+#>    event_id title   duration emoji details                            unit_date 
+#>       <int> <chr>   <drtn>   <chr> <chr>                              <date>    
+#>  1        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-05
+#>  2        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-06
+#>  3        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-07
+#>  4        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-13
+#>  5        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-14
+#>  6        3 Event 3 1 days   🐨    Lorem placerat sagittis vehicula … 2024-04-21
+#>  7        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-20
+#>  8        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-21
+#>  9        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-22
+#> 10        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-23
+#> # ℹ 19 more rows
+```
+
+We can create an empty calendar that spans the months of the events:
+
+``` r
+events_long |>
+  gg_facet_wrap_months(unit_date)
+```
+
+<img src="man/figures/README-empty-calendar-events-1.png" width="100%" />
+
+But maybe we want to indicate which days are event days:
+
+``` r
+events_long |>
+  gg_facet_wrap_months(unit_date) +
+  geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE)
+```
+
+<img src="man/figures/README-emoji-cal-events-1.svg" width="100%" />
+
+``` r
+
+#ggplot2::ggsave("static.png")
+```
+
+Additional rows are introduced within `gg_facet_wrap_months()` to plot
+the non-event days. Specify `na.rm = TRUE` on subsequent layers to
+silence the warning. This silently removes both the missing values
+generated when calculating calendar variables AS WELL AS any “true”
+missing values originating in `events_long`.
+
+If the emojis are not rendering, try changing your graphics device. For
+knitr output this can be controlled using the `dev` chunk option. For
+previews in RStudio, change Settings \> General \> Graphics (e.g. to
+[AGG](https://ragg.r-lib.org/)).
+
+## Add interactive elements
+
+``` r
+library(ggiraph)
+library(ggplot2)
+
+gi <- events_long |>
+  gg_facet_wrap_months(unit_date) +
+  geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE) +
+  geom_tile_interactive(
+        aes(
+            tooltip = paste(title),
+            data_id = event_id
+        ),
+        alpha = 0.2,
+        fill = "transparent",
+        colour = "grey80"
+    )
+
+if(interactive()){
+  ggiraph::girafe(ggobj = gi)
+}
+```
+
+![](man/figures/ggiraph_tile.png)
 
 ## Related packages & inspiration
 

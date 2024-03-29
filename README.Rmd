@@ -18,40 +18,110 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `ggtilecal` is to produce customisable calendar layouts using ggplot2 tile geoms.
+The goal of `ggtilecal` is to easily produce customisable calendar layouts using ggplot2 tile geoms.
 
 ## Installation
 
 You can install the development version of ggtilecal like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("remotes")
+remotes::install_github("cynthiahqy/ggtilecal)
 ```
 
-## Example
+## Examples
 
-This is a basic example which shows you how to solve a common problem:
+### Empty Calendar
 
-```{r example}
+```{r empty-calendar}
 library(ggtilecal)
-## basic example code
+make_empty_month_days(c("2024-01-05", "2024-04-04")) |>
+  gg_facet_wrap_months(unit_date)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+### Customising empty calendars
 
-```{r cars}
-summary(cars)
+```{r empty-calendar-custom}
+library(ggplot2)
+make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
+  gg_facet_wrap_months(unit_date,
+                       .geom = list(
+                         geom_tile(color = "grey70",
+                                   fill = "transparent"),
+                         geom_text(nudge_y = 0.25,
+                                   color = "#6a329f")),
+                       .theme = list(
+                         theme_bw_tilecal(),
+                         theme(strip.background = element_rect(fill = "#d9d2e9")))
+                       )
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
 
-You can also embed plots, for example:
+### Adding more layers to the calendar: Event emojis!
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+Prepare event data in "long" form, which in this context refers to having one row per day of an event.
+
+```{r}
+set.seed(498)
+events <- demo_events(10)
+events
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+
+```{r}
+events_long <- events |>
+  reframe_events(start, end) |>
+  dplyr::slice_min(order_by = duration, n = 1, by = unit_date)
+events_long
+```
+
+We can create an empty calendar that spans the months of the events:
+
+```{r empty-calendar-events}
+events_long |>
+  gg_facet_wrap_months(unit_date)
+```
+
+But maybe we want to indicate which days are event days:
+
+```{r emoji-cal-events, dev='svg'}
+events_long |>
+  gg_facet_wrap_months(unit_date) +
+  geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE)
+
+#ggplot2::ggsave("static.png")
+```
+
+Additional rows are introduced within `gg_facet_wrap_months()` to plot the non-event days. Specify `na.rm = TRUE` on subsequent layers to silence the warning. This silently removes both the missing values generated when calculating calendar variables AS WELL AS any "true" missing values originating in `events_long`.
+
+If the emojis are not rendering, try changing your graphics device. For knitr output this can be controlled using the `dev` chunk option. For previews in RStudio, change Settings > General > Graphics (e.g. to [AGG](https://ragg.r-lib.org/)).
+
+## Add interactive elements
+
+
+```{r ggiraph-tile}
+library(ggiraph)
+library(ggplot2)
+
+gi <- events_long |>
+  gg_facet_wrap_months(unit_date) +
+  geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE) +
+  geom_tile_interactive(
+        aes(
+            tooltip = paste(title),
+            data_id = event_id
+        ),
+        alpha = 0.2,
+        fill = "transparent",
+        colour = "grey80"
+    )
+
+if(interactive()){
+  ggiraph::girafe(ggobj = gi)
+}
+```
+
+![](man/figures/ggiraph_tile.png)
 
 ## Related packages & inspiration
 

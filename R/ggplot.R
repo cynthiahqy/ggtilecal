@@ -9,7 +9,9 @@
 #' @return tibble with additional calendar layout variables
 #' @export
 #'
-#' @examples 
+#' @examples
+#' make_empty_month_days(c("2024-01-01", "2024-02-01")) |> 
+#'   calc_calendar_vars(unit_date)
 #' @importFrom lubridate year month day wday mday floor_date
 calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"),  week_start = 1){
   .data |> dplyr::mutate(
@@ -35,10 +37,8 @@ calc_calendar_vars <- function(.data, date_col, locale = Sys.getlocale("LC_TIME"
 #'
 #' @inheritParams ggplot2::theme_bw
 #'
-#' @return
 #' @export
 #'
-#' @examples
 #' @importFrom ggplot2 theme theme_bw %+replace%
 #' element_blank element_rect element_text
 #' unit margin
@@ -101,10 +101,8 @@ theme_bw_tilecal <- function(base_size = 11,
 #' To remove any of the optional layers, set the argument to any empty `list()`
 #'
 #' @inheritParams ggplot2::facet_wrap
-#' @param .events_long
-#' @param date_col
-#' @param cal_range WIP/TODO
-#' @param unit TODO rename to `tile_unit`
+#' @param .events_long long format calendar event data
+#' @param date_col column containing calendar unit dates
 #' @param .geom,.scale_coord,.theme,.layers
 #'    Customisable lists of ggplot2 layers to add to the plot.
 #'    An empty `list()` leaves the plot unmodified.
@@ -122,8 +120,8 @@ theme_bw_tilecal <- function(base_size = 11,
 #'   gg_facet_wrap_months(unit_date)
 #' @importFrom ggplot2 aes geom_tile geom_text facet_wrap labs
 #' scale_y_reverse scale_x_discrete coord_fixed vars
-gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
-                                 unit = "day", locale = NULL, week_start = NULL,
+gg_facet_wrap_months <- function(.events_long, date_col,
+                                 locale = NULL, week_start = NULL,
                                  nrow = NULL, ncol = NULL,
                                  .geom = list(geom_tile(color = "grey70",
                                                         fill = "transparent"), 
@@ -135,11 +133,7 @@ gg_facet_wrap_months <- function(.events_long, date_col, cal_range = NULL,
                                  ),
                                  .theme = list(theme_bw_tilecal()),
                                  .layers = list()) {
-  # date_col_str <- rlang::englue("{{date_col}}")
-  # if(anyDuplicated(.events_long[[date_col_str]])){
-  #   rlang::warn("More than one event per {.var {unit}}")
-  # }
-
+  
   cal_data <- fill_missing_units(.events_long, {{ date_col }}) |>
     calc_calendar_vars({{date_col}})
   

@@ -6,8 +6,8 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `ggtilecal` is to easily produce customisable calendar
-layouts using ggplot2 tile geoms.
+The goal of `ggtilecal` is to easily produce calendar layouts using
+ggplot2 tile and text geoms, while retaining some customisation.
 
 ## Installation
 
@@ -32,6 +32,12 @@ make_empty_month_days(c("2024-01-05", "2024-04-04")) |>
 
 ### Customising empty calendars
 
+Layers in `.geom` inherit the internally generated calendar layout
+mapping variables. `gg_facet_wrap_months()` provides uses lists of
+sensible default layers that can be easily modified. Customise the look
+of each calendar tile using `geom_tile()`, and the text number labels
+using `geom_text()`.
+
 ``` r
 library(ggplot2)
 make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
@@ -51,8 +57,8 @@ make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
 
 ### Adding more layers to the calendar: Event emojis!
 
-Prepare event data in “long” form, which in this context refers to
-having one row per day of an event.
+Prepare and reshape event data into “long” form, which in this context
+refers to having one row per day of an event.
 
 ``` r
 set.seed(498)
@@ -158,8 +164,7 @@ if(interactive()){
 
 ## Related packages & inspiration
 
-- [ ] [ggTimeSeries](https://github.com/AtherEnergy/ggTimeSeries)
-- [ ] [ggweekly](https://github.com/gadenbuie/ggweekly)
-- [ ] [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
-- [ ]
-  [calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [ggTimeSeries](https://github.com/AtherEnergy/ggTimeSeries)
+- [ggweekly](https://github.com/gadenbuie/ggweekly)
+- [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)

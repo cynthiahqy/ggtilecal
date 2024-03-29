@@ -1,4 +1,5 @@
 #' Fill out event calendar with missing days
+#' @keywords internal
 fill_missing_units_list <- function(.data, date_col, adjust_months = NULL,
                           cal_unit = "day") {
   out <- list()

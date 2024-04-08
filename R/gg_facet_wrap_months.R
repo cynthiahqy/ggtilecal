@@ -49,7 +49,7 @@
 #'   group_by(unit_date) |>
 #'   slice_min(order_by = duration) |>
 #'   gg_facet_wrap_months(unit_date)
-#' @importFrom ggplot2 aes geom_tile geom_text facet_wrap labs
+#' @importFrom ggplot2 aes_string geom_tile geom_text facet_wrap labs
 #' scale_y_reverse scale_x_discrete coord_fixed vars
 gg_facet_wrap_months <- function(.events_long, date_col,
                                  locale = NULL, week_start = NULL,
@@ -73,12 +73,12 @@ gg_facet_wrap_months <- function(.events_long, date_col,
 
 
   base_plot <- cal_data |>
-    ggplot2::ggplot(mapping = aes(
-      x = TC_wday_label,
-      y = TC_month_week,
-      label = TC_mday
+    ggplot2::ggplot(mapping = aes_string(
+      x = "TC_wday_label",
+      y = "TC_month_week",
+      label = "TC_mday"
     )) +
-    facet_wrap(vars(TC_month_label), axes = "all_x", nrow = nrow, ncol = ncol) +
+    facet_wrap(c("TC_month_label"), axes = "all_x", nrow = nrow, ncol = ncol) +
     labs(y = NULL, x = NULL) +
     .geom +
     .scale_coord +

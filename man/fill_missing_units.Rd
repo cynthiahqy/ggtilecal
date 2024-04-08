@@ -4,14 +4,21 @@
 \alias{fill_missing_units}
 \title{Fill out long format event table with missing dates}
 \usage{
-fill_missing_units(.data, date_col, adjust_months = NULL, cal_unit = "day")
+fill_missing_units(
+  .events_long,
+  date_col,
+  adjust_months = NULL,
+  cal_unit = "day"
+)
 }
 \arguments{
-\item{adjust_months}{vector specifying how many months to add}
+\item{.events_long}{long format calendar event data}
+
+\item{date_col}{column containing calendar unit dates}
+
+\item{adjust_months}{how many months to add before and after}
 
 \item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
-
-\item{.events_long}{long format calendar event data}
 }
 \value{
 tibble

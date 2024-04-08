@@ -11,9 +11,11 @@ make_empty_month_days(
 )
 }
 \arguments{
+\item{month_range}{vector of dates.}
+
 \item{dates_to}{string name for column to output calendar unit dates}
 
-\item{adjust_months}{vector specifying how many months to add}
+\item{adjust_months}{how many months to add before and after}
 }
 \value{
 tibble with one row per day in specified months

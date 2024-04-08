@@ -1,6 +1,6 @@
 #' Generate tibble of demo events
 #'
-#' `emoji` and `details` columns are only generated if the 
+#' `emoji` and `details` columns are only generated if the
 #' `emoji` and `lorem` packages are installed
 #'
 #' @param n_events number of events to generate
@@ -32,27 +32,27 @@ demo_events <- function(
         max_duration,
         as.integer(difftime(end_date, event_start_dates, units = "days"))
     )
-    event_duration <- sapply(event_max_durations + 1, sample.int, size = 1) - 1
-    
+    event_duration <- sapply(event_max_durations + 1, sample.int, size = 1)
+
     events <- tibble::tibble(
         event_id = seq(n_events),
         title = paste("Event", seq(n_events)),
         start = event_start_dates,
         # max_duration = event_max_durations,
         # rand_duration = event_duration,
-        end = event_start_dates + event_duration,
-        duration = difftime(end, start, units = "days") + 1
+        end = event_start_dates + event_duration - 1,
+        duration = event_duration
     )
-    
-    if (rlang::is_installed("emoji")){
-      events <- events |>
-        dplyr::mutate(emoji = emoji::zoo(n_events, replace = TRUE))
+
+    if (rlang::is_installed("emoji")) {
+        events <- events |>
+            dplyr::mutate(emoji = emoji::zoo(n_events, replace = TRUE))
     }
-    if (rlang::is_installed("lorem")){
-      events <- events |>
-        dplyr::rowwise() |>
-        dplyr::mutate(details = unlist(lorem::ipsum(1,1)))
+    if (rlang::is_installed("lorem")) {
+        events <- events |>
+            dplyr::rowwise() |>
+            dplyr::mutate(details = unlist(lorem::ipsum(1, 1)))
     }
-    
+
     events
 }

@@ -18,7 +18,8 @@ fill_missing_units(
 
 \item{adjust_months}{how many months to add before and after}
 
-\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
+\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in
+\code{\link[base]{seq.Date}}}
 }
 \value{
 tibble

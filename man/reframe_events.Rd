@@ -21,7 +21,8 @@ reframe_events(
 
 \item{dates_to}{string name for column to output calendar unit dates}
 
-\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
+\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in
+\code{\link[base]{seq.Date}}}
 }
 \value{
 See return value of \link[dplyr]{reframe}
@@ -36,6 +37,6 @@ Duplicates all columns except for \code{event_start} and \code{event_date}.
 This is a thin wrapper around \code{dplyr::reframe()}.
 }
 \examples{
-demo_events(5) |> 
-  reframe_events(start, end)
+demo_events(5) |>
+    reframe_events(start, end)
 }

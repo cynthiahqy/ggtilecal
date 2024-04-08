@@ -38,6 +38,8 @@ fill_missing_units_list <- function(.data, date_col, adjust_months = NULL,
 #'   fill_missing_units(unit_date)
 fill_missing_units <- function(.events_long, date_col, adjust_months = NULL,
                                cal_unit = "day") {
-  filled <- fill_missing_units_list(.events_long, {{ date_col }}, adjust_months, cal_unit)
+  filled <- fill_missing_units_list(
+    .events_long, {{ date_col }}, adjust_months, cal_unit
+  )
   filled[[".merged_units"]]
 }

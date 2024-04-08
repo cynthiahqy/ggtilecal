@@ -1,14 +1,18 @@
 #' Make empty sequence of calendar units between specified date range
 #'
-#' @param cal_range `c(start,end)` range for which to create sequence of calendar units
+#' @param cal_range `c(start,end)` range for which to create
+#' sequence of calendar units
 #' @param dates_to string name for column to output calendar unit dates
-#' @param cal_unit increment of calendar sequence passed to `by` argument in \code{\link[base]{seq.Date}}
+#' @param cal_unit increment of calendar sequence passed to `by` argument in
+#' \code{\link[base]{seq.Date}}
 #'
 #' @return tibble
 #' @export
 #' @importFrom rlang sym
 #' @examples make_empty_units(c("2024-03-05", "2024-04-15"))
-make_empty_units <- function(cal_range, dates_to = "unit_date", cal_unit = "day") {
+make_empty_units <- function(cal_range,
+                             dates_to = "unit_date",
+                             cal_unit = "day") {
   cal_range <- anytime::anydate(cal_range)
   start_dt <- min(cal_range)
   end_dt <- max(cal_range)
@@ -19,7 +23,9 @@ make_empty_units <- function(cal_range, dates_to = "unit_date", cal_unit = "day"
   )
 
   x |>
-    dplyr::reframe("{ dates_to }" := seq(!!sym("start"), !!sym("end"), by = cal_unit))
+    dplyr::reframe(
+      "{ dates_to }" := seq(!!sym("start"), !!sym("end"), by = cal_unit)
+    )
 }
 
 

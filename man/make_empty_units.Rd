@@ -7,11 +7,13 @@
 make_empty_units(cal_range, dates_to = "unit_date", cal_unit = "day")
 }
 \arguments{
-\item{cal_range}{\code{c(start,end)} range for which to create sequence of calendar units}
+\item{cal_range}{\code{c(start,end)} range for which to create
+sequence of calendar units}
 
 \item{dates_to}{string name for column to output calendar unit dates}
 
-\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in \code{\link[base]{seq.Date}}}
+\item{cal_unit}{increment of calendar sequence passed to \code{by} argument in
+\code{\link[base]{seq.Date}}}
 }
 \value{
 tibble

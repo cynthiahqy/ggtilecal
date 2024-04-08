@@ -12,7 +12,8 @@ calc_calendar_vars(
 )
 }
 \arguments{
-\item{.data}{tibble or data frame containing dates to be plotted in calendar layout}
+\item{.data}{tibble or data frame
+containing dates to be plotted in calendar layout}
 
 \item{date_col}{column containing calendar unit dates}
 
@@ -32,6 +33,6 @@ tibble with additional calendar layout variables
 Helper function for calculating calendar layout variables.
 }
 \examples{
-make_empty_month_days(c("2024-01-01", "2024-02-01")) |> 
+make_empty_month_days(c("2024-01-01", "2024-02-01")) |>
   calc_calendar_vars(unit_date)
 }

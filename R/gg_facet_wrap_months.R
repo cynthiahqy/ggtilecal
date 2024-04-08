@@ -86,3 +86,23 @@ gg_facet_wrap_months <- function(.events_long, date_col,
 
   base_plot
 }
+
+gg_facet_wrap_years <- function(.events_long, date_col,
+                                locale = NULL, week_start = NULL,
+                                nrow = NULL, ncol = NULL,
+                                .geom = list(
+                                  geom_tile(
+                                    color = "grey70",
+                                    fill = "transparent"
+                                  ),
+                                  geom_text(nudge_y = 0.25)
+                                ),
+                                .scale_coord = list(
+                                  scale_y_reverse(),
+                                  scale_x_discrete(position = "top"),
+                                  coord_fixed(expand = TRUE)
+                                ),
+                                .theme = list(theme_bw_tilecal()),
+                                .layers = list()) {
+
+}

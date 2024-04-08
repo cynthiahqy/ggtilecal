@@ -16,7 +16,9 @@
 #' @export
 #' @importFrom dplyr group_by pick filter n
 #' 
-#' @examples demo_events(5) |> reframe(events, start, end)
+#' @examples
+#' demo_events(5) |> 
+#'   reframe_events(start, end)
 reframe_events <- function(.data, event_start, event_end, dates_to = "unit_date", cal_unit = "day") {
     if (dplyr::is_grouped_df(.data)) {
         x_grpd <- .data

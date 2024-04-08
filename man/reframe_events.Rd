@@ -36,5 +36,6 @@ Duplicates all columns except for \code{event_start} and \code{event_date}.
 This is a thin wrapper around \code{dplyr::reframe()}.
 }
 \examples{
-demo_events(5) |> reframe(events, start, end)
+demo_events(5) |> 
+  reframe_events(start, end)
 }

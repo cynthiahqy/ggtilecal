@@ -7,11 +7,11 @@
 demo_events(n_events = 5, date_range = NULL, max_duration = 5)
 }
 \arguments{
-\item{n_events}{}
+\item{n_events}{number of events to generate}
 
-\item{date_range}{}
+\item{date_range}{date range for events}
 
-\item{max_duration}{}
+\item{max_duration}{maximum duration of an event}
 }
 \value{
 tibble

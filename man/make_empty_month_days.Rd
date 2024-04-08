@@ -24,5 +24,5 @@ encompassing \code{cal_range} with the option to adjust the number of months
 either side of \code{cal_range}
 }
 \examples{
-make_months(c("2024-03-05", "2024-04-15"))
+make_empty_month_days(c("2024-03-05", "2024-04-15"))
 }

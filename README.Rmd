@@ -17,6 +17,7 @@ knitr::opts_chunk$set(
 # ggtilecal
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ggtilecal)](https://CRAN.R-project.org/package=ggtilecal)
 <!-- badges: end -->
 
 The goal of `ggtilecal` is to easily produce calendar layouts using ggplot2 tile and text geoms, while retaining some customisation.
@@ -127,7 +128,8 @@ if(interactive()){
 
 ## Related packages & inspiration
 
+- <https://github.com/nrennie/tidytuesday/tree/main/2023/2023-03-07>
 - [ggTimeSeries](https://github.com/AtherEnergy/ggTimeSeries)
 - [ggweekly](https://github.com/gadenbuie/ggweekly)
 - [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
-- [calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [davidmasp/calendar-ggplot](https://github.com/davidmasp/calendar-ggplot/blob/main/calendar.R)

@@ -29,12 +29,13 @@ make_empty_units <- function(cal_range, dates_to = "unit_date", cal_unit = "day"
 #' either side of `cal_range`
 #' 
 #' @inheritParams make_empty_units
-#' @param adjust_months vector specifying how many months to add
+#' @param month_range vector of dates. 
+#' @param adjust_months how many months to add before and after
 #'
 #' @return tibble with one row per day in specified months
 #' @export
 #'
-#' @examples make_months(c("2024-03-05", "2024-04-15"))
+#' @examples make_empty_month_days(c("2024-03-05", "2024-04-15"))
 make_empty_month_days <- function(
     month_range,
     dates_to = "unit_date",

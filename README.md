@@ -4,6 +4,9 @@
 # ggtilecal
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ggtilecal)](https://CRAN.R-project.org/package=ggtilecal)
 <!-- badges: end -->
 
 The goal of `ggtilecal` is to easily produce calendar layouts using
@@ -68,16 +71,16 @@ events
 #> # Rowwise: 
 #>    event_id title    start      end        duration emoji details               
 #>       <int> <chr>    <date>     <date>     <drtn>   <chr> <chr>                 
-#>  1        1 Event 1  2024-04-05 2024-04-07 3 days   🐟    Adipiscing mauris et …
-#>  2        2 Event 2  2024-04-13 2024-04-14 2 days   🐩    Sit aliquam feugiat p…
-#>  3        3 Event 3  2024-04-21 2024-04-21 1 days   🐨    Lorem placerat sagitt…
-#>  4        4 Event 4  2024-05-20 2024-05-25 6 days   🐚    Ipsum mollis fermentu…
-#>  5        5 Event 5  2024-05-31 2024-05-31 1 days   🦟    Consectetur malesuada…
-#>  6        6 Event 6  2024-06-07 2024-06-12 6 days   🐛    Sit bibendum porta ut…
-#>  7        7 Event 7  2024-06-08 2024-06-13 6 days   🦣    Lorem cursus sem cubi…
-#>  8        8 Event 8  2024-06-10 2024-06-14 5 days   🦖    Adipiscing fames magn…
-#>  9        9 Event 9  2024-06-12 2024-06-13 2 days   🐣    Amet ligula sociis ve…
-#> 10       10 Event 10 2024-06-22 2024-06-27 6 days   🐈‍⬛    Sit ridiculus id maec…
+#>  1        1 Event 1  2024-04-15 2024-04-17 3 days   🐟    Adipiscing mauris et …
+#>  2        2 Event 2  2024-04-23 2024-04-24 2 days   🐩    Sit aliquam feugiat p…
+#>  3        3 Event 3  2024-05-01 2024-05-01 1 days   🐨    Lorem placerat sagitt…
+#>  4        4 Event 4  2024-05-30 2024-06-04 6 days   🐚    Ipsum mollis fermentu…
+#>  5        5 Event 5  2024-06-10 2024-06-10 1 days   🦟    Consectetur malesuada…
+#>  6        6 Event 6  2024-06-17 2024-06-22 6 days   🐛    Sit bibendum porta ut…
+#>  7        7 Event 7  2024-06-18 2024-06-23 6 days   🦣    Lorem cursus sem cubi…
+#>  8        8 Event 8  2024-06-20 2024-06-24 5 days   🦖    Adipiscing fames magn…
+#>  9        9 Event 9  2024-06-22 2024-06-23 2 days   🐣    Amet ligula sociis ve…
+#> 10       10 Event 10 2024-07-02 2024-07-07 6 days   🐈‍⬛    Sit ridiculus id maec…
 ```
 
 ``` r
@@ -90,16 +93,16 @@ events_long
 #> # A tibble: 29 × 6
 #>    event_id title   duration emoji details                            unit_date 
 #>       <int> <chr>   <drtn>   <chr> <chr>                              <date>    
-#>  1        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-05
-#>  2        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-06
-#>  3        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-07
-#>  4        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-13
-#>  5        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-14
-#>  6        3 Event 3 1 days   🐨    Lorem placerat sagittis vehicula … 2024-04-21
-#>  7        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-20
-#>  8        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-21
-#>  9        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-22
-#> 10        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-23
+#>  1        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-15
+#>  2        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-16
+#>  3        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-17
+#>  4        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-23
+#>  5        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-24
+#>  6        3 Event 3 1 days   🐨    Lorem placerat sagittis vehicula … 2024-05-01
+#>  7        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-30
+#>  8        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-31
+#>  9        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-06-01
+#> 10        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-06-02
 #> # ℹ 19 more rows
 ```
 
@@ -164,7 +167,8 @@ if(interactive()){
 
 ## Related packages & inspiration
 
+- <https://github.com/nrennie/tidytuesday/tree/main/2023/2023-03-07>
 - [ggTimeSeries](https://github.com/AtherEnergy/ggTimeSeries)
 - [ggweekly](https://github.com/gadenbuie/ggweekly)
 - [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
-- [calendar-ggplot](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
+- [davidmasp/calendar-ggplot](https://github.com/davidmasp/calendar-ggplot/blob/main/calendar.R)

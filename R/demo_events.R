@@ -3,9 +3,9 @@
 #' `emoji` and `details` columns are only generated if the 
 #' `emoji` and `lorem` packages are installed
 #'
-#' @param n_events 
-#' @param date_range 
-#' @param max_duration 
+#' @param n_events number of events to generate
+#' @param date_range date range for events
+#' @param max_duration maximum duration of an event
 #'
 #' @return tibble
 #' @export
@@ -41,7 +41,7 @@ demo_events <- function(
         # max_duration = event_max_durations,
         # rand_duration = event_duration,
         end = event_start_dates + event_duration,
-        duration = difftime(end, start, unit = "days") + 1
+        duration = difftime(end, start, units = "days") + 1
     )
     
     if (rlang::is_installed("emoji")){

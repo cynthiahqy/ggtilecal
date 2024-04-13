@@ -13,10 +13,16 @@
     <loc>https://cynthiahqy.github.io/ggtilecal/index.html</loc>
   </url>
   <url>
+    <loc>https://cynthiahqy.github.io/ggtilecal/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://cynthiahqy.github.io/ggtilecal/reference/calc_calendar_vars.html</loc>
   </url>
   <url>
-    <loc>https://cynthiahqy.github.io/ggtilecal/reference/demo_events.html</loc>
+    <loc>https://cynthiahqy.github.io/ggtilecal/reference/demo_events_gpt.html</loc>
+  </url>
+  <url>
+    <loc>https://cynthiahqy.github.io/ggtilecal/reference/demo_events_overlap.html</loc>
   </url>
   <url>
     <loc>https://cynthiahqy.github.io/ggtilecal/reference/fill_missing_units.html</loc>

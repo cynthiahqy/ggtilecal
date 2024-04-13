@@ -44,11 +44,13 @@
 #' @examples
 #' library(dplyr)
 #' library(ggplot2)
-#' demo_events(20) |>
-#'   reframe_events(start, end) |>
+#' 
+#' demo_events_gpt |>
+#'   reframe_events(startDate, endDate) |>
 #'   group_by(unit_date) |>
 #'   slice_min(order_by = duration) |>
-#'   gg_facet_wrap_months(unit_date)
+#'   gg_facet_wrap_months(unit_date) +
+#'   geom_text(aes(label = event_emoji), nudge_y = -0.25, na.rm = TRUE)
 #' @importFrom ggplot2 aes_string geom_tile geom_text facet_wrap labs
 #' scale_y_reverse scale_x_discrete coord_fixed vars
 gg_facet_wrap_months <- function(.events_long, date_col,

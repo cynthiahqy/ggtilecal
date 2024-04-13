@@ -28,7 +28,7 @@ tibble
 Helper function for filling out event table with any missing calendar units.
 }
 \examples{
-demo_events(1) |>
-  reframe_events(start, end) |>
+demo_events_gpt |>
+  reframe_events(startDate, endDate) |>
   fill_missing_units(unit_date)
 }

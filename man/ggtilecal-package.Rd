@@ -4,19 +4,21 @@
 \name{ggtilecal-package}
 \alias{ggtilecal}
 \alias{ggtilecal-package}
-\title{ggtilecal: Package for creating interactive and static overview calendars using tiles}
+\title{ggtilecal: Create static (and interactive) overview calendars using ggplot2}
 \description{
-What the package does (one paragraph).
+Creates tile-based calendar layouts using ggplot2 facets and tiles. Calculates calendar layout positioning variables, and generates customisable ggplot2 calendars for specified time periods and calendar units.
 }
 \seealso{
 Useful links:
 \itemize{
   \item \url{https://cynthiahqy.github.io/ggtilecal/}
+  \item \url{https://github.com/cynthiahqy/ggtilecal}
+  \item Report bugs at \url{https://github.com/cynthiahqy/ggtilecal}
 }
 
 }
 \author{
-\strong{Maintainer}: Cynthia Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/YOUR-ORCID-ID}{ORCID})
+\strong{Maintainer}: Cynthia Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/0000-0002-9218-987X}{ORCID})
 
 }
 \keyword{internal}

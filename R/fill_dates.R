@@ -33,8 +33,8 @@ fill_missing_units_list <- function(.data, date_col, adjust_months = NULL,
 #' @export
 #'
 #' @examples
-#' demo_events(1) |>
-#'   reframe_events(start, end) |>
+#' demo_events_gpt |>
+#'   reframe_events(startDate, endDate) |>
 #'   fill_missing_units(unit_date)
 fill_missing_units <- function(.events_long, date_col, adjust_months = NULL,
                                cal_unit = "day") {

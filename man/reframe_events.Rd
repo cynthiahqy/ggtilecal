@@ -51,6 +51,6 @@ event <- data.frame(
   start = as.Date("2024-01-05"),
   end = as.Date("2024-01-10"))
 reframe_events(event, start, end)
-demo_events(5) |>
-    reframe_events(start, end)
+demo_events_gpt |>
+    reframe_events(startDate, endDate)
 }

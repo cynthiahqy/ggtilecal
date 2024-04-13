@@ -1,6 +1,6 @@
 Package: ggtilecal
 Title: Create static (and interactive) overview calendars using ggplot2
-Version: 0.0.0.9002
+Version: 0.0.0.9003
 Authors@R: 
     person("Cynthia", "Huang", , "cynthia.huang@monash.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9218-987X"))
@@ -27,3 +27,6 @@ Suggests:
     ggiraph
 URL: https://cynthiahqy.github.io/ggtilecal/, https://github.com/cynthiahqy/ggtilecal
 BugReports: https://github.com/cynthiahqy/ggtilecal
+Depends: 
+    R (>= 2.10)
+LazyData: true

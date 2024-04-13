@@ -60,13 +60,10 @@ make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
 
 ### Adding more layers to the calendar: Event emojis!
 
-Prepare and reshape event data into “long” form, which in this context
-refers to having one row per day of an event.
+Prepare event details:
 
 ``` r
-set.seed(498)
-events <- demo_events(10, date_range=c("2024-01-01", "2024-03-31"))
-events
+demo_events_overlap
 #> # A tibble: 10 × 7
 #> # Rowwise: 
 #>    event_id title    start      end        duration emoji details               
@@ -83,8 +80,13 @@ events
 #> 10       10 Event 10 2024-03-26 2024-03-31        6 🐈‍⬛    Sit ridiculus id maec…
 ```
 
+Reshape event data into “long” form, which in this context refers to
+having one row per day of an event. In this example, if multiple events
+(i.e. 6,7,8,9) expand to the same days, we select only one event to plot
+an emoji for.
+
 ``` r
-events_long <- events |>
+events_long <- demo_events_overlap |>
   reframe_events(start, end) |>
   dplyr::slice_min(order_by = duration, n = 1, by = unit_date)
 events_long
@@ -137,6 +139,9 @@ previews in RStudio, change Settings \> General \> Graphics (e.g. to
 `ggplot2::ggsave("ggtilecal.png", emoji_cal, height=3, width=9, dpi=300)`
 
 ## Add interactive elements
+
+We can also add interactive tile layers using
+[`ggigraph`](https://davidgohel.github.io/ggiraph/):
 
 ``` r
 library(ggiraph)

@@ -29,8 +29,8 @@
 #'   start = as.Date("2024-01-05"),
 #'   end = as.Date("2024-01-10"))
 #' reframe_events(event, start, end)
-#' demo_events(5) |>
-#'     reframe_events(start, end)
+#' demo_events_gpt |>
+#'     reframe_events(startDate, endDate)
 reframe_events <- function(
     .data, event_start, event_end, id_cols = NULL,
     dates_to = "unit_date", cal_unit = "day") {

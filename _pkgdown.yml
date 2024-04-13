@@ -17,9 +17,11 @@ reference:
     Functions for reshaping event data, generating calendar units, 
     and calculating layout variables
   contents:
-  - demo_events
   - reframe_events
   - make_empty_units
   - make_empty_month_days
   - fill_missing_units
   - calc_calendar_vars
+- title: "Sample Data"
+  - demo_events_gpt
+  - demo_events_overlap

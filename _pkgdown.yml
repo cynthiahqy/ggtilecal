@@ -2,6 +2,11 @@ url: https://cynthiahqy.github.io/ggtilecal/
 template:
   bootstrap: 5
 
+navbar:
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github]
+
 reference:
 - title: "Create ggplot2 objects"
   contents:

@@ -28,7 +28,7 @@ You can install the development version of ggtilecal like so:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("cynthiahqy/ggtilecal)
+remotes::install_github("cynthiahqy/ggtilecal")
 ```
 
 ## Examples
@@ -67,7 +67,7 @@ Prepare and reshape event data into "long" form, which in this context refers to
 
 ```{r}
 set.seed(498)
-events <- demo_events(10)
+events <- demo_events(10, date_range=c("2024-01-01", "2024-03-31"))
 events
 ```
 
@@ -80,7 +80,7 @@ events_long
 
 We can create an empty calendar that spans the months of the events:
 
-```{r empty-calendar-events, fig.height=3, fig.width=9,}
+```{r empty-calendar-events, fig.height=3, fig.width=9, dpi=300}
 events_long |>
   gg_facet_wrap_months(unit_date)
 ```
@@ -91,7 +91,6 @@ But maybe we want to indicate which days are event days:
 emoji_cal <- events_long |>
   gg_facet_wrap_months(unit_date) +
   geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE)
-
 emoji_cal
 ```
 

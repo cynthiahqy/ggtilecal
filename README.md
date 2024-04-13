@@ -18,7 +18,7 @@ You can install the development version of ggtilecal like so:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("cynthiahqy/ggtilecal)
+remotes::install_github("cynthiahqy/ggtilecal")
 ```
 
 ## Examples
@@ -65,44 +65,42 @@ refers to having one row per day of an event.
 
 ``` r
 set.seed(498)
-events <- demo_events(10)
+events <- demo_events(10, date_range=c("2024-01-01", "2024-03-31"))
 events
 #> # A tibble: 10 × 7
 #> # Rowwise: 
 #>    event_id title    start      end        duration emoji details               
-#>       <int> <chr>    <date>     <date>     <drtn>   <chr> <chr>                 
-#>  1        1 Event 1  2024-04-15 2024-04-17 3 days   🐟    Adipiscing mauris et …
-#>  2        2 Event 2  2024-04-23 2024-04-24 2 days   🐩    Sit aliquam feugiat p…
-#>  3        3 Event 3  2024-05-01 2024-05-01 1 days   🐨    Lorem placerat sagitt…
-#>  4        4 Event 4  2024-05-30 2024-06-04 6 days   🐚    Ipsum mollis fermentu…
-#>  5        5 Event 5  2024-06-10 2024-06-10 1 days   🦟    Consectetur malesuada…
-#>  6        6 Event 6  2024-06-17 2024-06-22 6 days   🐛    Sit bibendum porta ut…
-#>  7        7 Event 7  2024-06-18 2024-06-23 6 days   🦣    Lorem cursus sem cubi…
-#>  8        8 Event 8  2024-06-20 2024-06-24 5 days   🦖    Adipiscing fames magn…
-#>  9        9 Event 9  2024-06-22 2024-06-23 2 days   🐣    Amet ligula sociis ve…
-#> 10       10 Event 10 2024-07-02 2024-07-07 6 days   🐈‍⬛    Sit ridiculus id maec…
+#>       <int> <chr>    <date>     <date>        <int> <chr> <chr>                 
+#>  1        1 Event 1  2024-01-08 2024-01-10        3 🐟    Adipiscing mauris et …
+#>  2        2 Event 2  2024-01-16 2024-01-17        2 🐩    Sit aliquam feugiat p…
+#>  3        3 Event 3  2024-01-24 2024-01-24        1 🐨    Lorem placerat sagitt…
+#>  4        4 Event 4  2024-02-22 2024-02-27        6 🐚    Ipsum mollis fermentu…
+#>  5        5 Event 5  2024-03-04 2024-03-04        1 🦟    Consectetur malesuada…
+#>  6        6 Event 6  2024-03-11 2024-03-16        6 🐛    Sit bibendum porta ut…
+#>  7        7 Event 7  2024-03-12 2024-03-17        6 🦣    Lorem cursus sem cubi…
+#>  8        8 Event 8  2024-03-14 2024-03-18        5 🦖    Adipiscing fames magn…
+#>  9        9 Event 9  2024-03-16 2024-03-17        2 🐣    Amet ligula sociis ve…
+#> 10       10 Event 10 2024-03-26 2024-03-31        6 🐈‍⬛    Sit ridiculus id maec…
 ```
 
 ``` r
 events_long <- events |>
   reframe_events(start, end) |>
   dplyr::slice_min(order_by = duration, n = 1, by = unit_date)
-#> Reframing using grouping by: `event_id`, `title`, `duration`, `emoji`, and
-#> `details`
 events_long
 #> # A tibble: 29 × 6
 #>    event_id title   duration emoji details                            unit_date 
-#>       <int> <chr>   <drtn>   <chr> <chr>                              <date>    
-#>  1        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-15
-#>  2        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-16
-#>  3        1 Event 1 3 days   🐟    Adipiscing mauris et augue dapibu… 2024-04-17
-#>  4        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-23
-#>  5        2 Event 2 2 days   🐩    Sit aliquam feugiat primis duis s… 2024-04-24
-#>  6        3 Event 3 1 days   🐨    Lorem placerat sagittis vehicula … 2024-05-01
-#>  7        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-30
-#>  8        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-05-31
-#>  9        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-06-01
-#> 10        4 Event 4 6 days   🐚    Ipsum mollis fermentum in risus r… 2024-06-02
+#>       <int> <chr>      <int> <chr> <chr>                              <date>    
+#>  1        1 Event 1        3 🐟    Adipiscing mauris et augue dapibu… 2024-01-08
+#>  2        1 Event 1        3 🐟    Adipiscing mauris et augue dapibu… 2024-01-09
+#>  3        1 Event 1        3 🐟    Adipiscing mauris et augue dapibu… 2024-01-10
+#>  4        2 Event 2        2 🐩    Sit aliquam feugiat primis duis s… 2024-01-16
+#>  5        2 Event 2        2 🐩    Sit aliquam feugiat primis duis s… 2024-01-17
+#>  6        3 Event 3        1 🐨    Lorem placerat sagittis vehicula … 2024-01-24
+#>  7        4 Event 4        6 🐚    Ipsum mollis fermentum in risus r… 2024-02-22
+#>  8        4 Event 4        6 🐚    Ipsum mollis fermentum in risus r… 2024-02-23
+#>  9        4 Event 4        6 🐚    Ipsum mollis fermentum in risus r… 2024-02-24
+#> 10        4 Event 4        6 🐚    Ipsum mollis fermentum in risus r… 2024-02-25
 #> # ℹ 19 more rows
 ```
 
@@ -121,7 +119,6 @@ But maybe we want to indicate which days are event days:
 emoji_cal <- events_long |>
   gg_facet_wrap_months(unit_date) +
   geom_text(aes(label = emoji), nudge_y = -0.25, na.rm = TRUE)
-
 emoji_cal
 ```
 

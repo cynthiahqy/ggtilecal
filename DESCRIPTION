@@ -4,9 +4,10 @@ Version: 0.0.0.9003
 Authors@R: 
     person("Cynthia", "Huang", , "cynthia.huang@monash.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9218-987X"))
-Description: Creates tile-based calendar layouts using ggplot2 facets and tiles.
-  Calculates calendar layout positioning variables, and generates customisable ggplot2
-  calendars for specified time periods and calendar units.
+Description: Creates tile-based calendar layouts using ggplot2 facets
+        and tiles. Calculates calendar layout positioning variables,
+        and generates customisable ggplot2 calendars for specified time
+        periods and calendar units.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -27,6 +28,5 @@ Suggests:
     ggiraph
 URL: https://cynthiahqy.github.io/ggtilecal/, https://github.com/cynthiahqy/ggtilecal
 BugReports: https://github.com/cynthiahqy/ggtilecal
-Depends: 
-    R (>= 2.10)
+Depends: R (>= 2.10)
 LazyData: true

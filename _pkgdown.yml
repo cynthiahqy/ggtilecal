@@ -23,5 +23,6 @@ reference:
   - fill_missing_units
   - calc_calendar_vars
 - title: "Sample Data"
+  contents:
   - demo_events_gpt
   - demo_events_overlap

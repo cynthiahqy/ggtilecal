@@ -174,3 +174,4 @@ if(interactive()){
 - [ggweekly](https://github.com/gadenbuie/ggweekly)
 - [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
 - [davidmasp/calendar-ggplot](https://github.com/davidmasp/calendar-ggplot/blob/main/calendar.R)
+- [calendR](https://github.com/R-CoderDotCom/calendR)

@@ -2,7 +2,7 @@ Package: ggtilecal
 Title: Create static (and interactive) overview calendars using ggplot2
 Version: 0.0.0.9003
 Authors@R: 
-    person("Cynthia", "Huang", , "cynthia.huang@monash.edu", role = c("aut", "cre"),
+    person("Cynthia", "Huang", "A.", "cynthia.huang@monash.edu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-9218-987X"))
 Description: Creates tile-based calendar layouts using ggplot2 facets
         and tiles. Calculates calendar layout positioning variables,

@@ -84,7 +84,8 @@ gg_facet_wrap_months <- function(.events_long, date_col,
     labs(y = NULL, x = NULL) +
     .geom +
     .scale_coord +
-    .theme
+    .theme +
+    .layers
 
   base_plot
 }

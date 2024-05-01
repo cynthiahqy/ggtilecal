@@ -18,7 +18,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Cynthia Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/0000-0002-9218-987X}{ORCID})
+\strong{Maintainer}: Cynthia A. Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/0000-0002-9218-987X}{ORCID})
 
 }
 \keyword{internal}

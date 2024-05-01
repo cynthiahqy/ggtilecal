@@ -37,7 +37,7 @@
 #' @inheritParams ggplot2::facet_wrap
 #' @inheritParams fill_missing_units
 #' @inheritParams calc_calendar_vars
-#' @param .geom,.scale_coord,.theme,.others
+#' @param .geom,.scale_coord,.theme,.other
 #'    Customisable lists of ggplot2 components to add to the plot.
 #'    An empty `list()` leaves the plot unmodified.
 #'

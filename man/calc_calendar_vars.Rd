@@ -27,7 +27,10 @@ value is a factor with the first level being the week start (e.g. Sunday if
 parameter globally.}
 }
 \value{
-tibble with additional calendar layout variables
+Tibble with additional calendar layout variables:
+\code{TC_year}, \code{TC_month_label}, \code{TC_mday},
+\code{TC_wday_label}, \code{TC_wday}, \code{TC_month_week},
+\code{TC_is_weekend}
 }
 \description{
 Helper function for calculating calendar layout variables.

@@ -16,7 +16,7 @@ gg_facet_wrap_months(
   .scale_coord = list(scale_y_reverse(), scale_x_discrete(position = "top"),
     coord_fixed(expand = TRUE)),
   .theme = list(theme_bw_tilecal()),
-  .layers = list()
+  .other = list()
 )
 }
 \arguments{
@@ -35,7 +35,7 @@ parameter globally.}
 
 \item{nrow, ncol}{Number of rows and columns.}
 
-\item{.geom, .scale_coord, .theme, .layers}{Customisable lists of ggplot2 layers to add to the plot.
+\item{.geom, .scale_coord, .theme, .other}{Customisable lists of ggplot2 components to add to the plot.
 An empty \code{list()} leaves the plot unmodified.}
 }
 \value{
@@ -50,17 +50,20 @@ Generates calendar with monthly facets by:
 }
 }
 \details{
-Returns a ggplot with the following fixed layers using calculated layout variables:
+Returns a ggplot with the following fixed components
+using calculated layout variables:
 \itemize{
 \item \code{aes()} mapping:
 \itemize{
-\item \code{x} is day of week, \code{y} is week in month, \code{label} is day of month
+\item \code{x} is day of week,
+\item \code{y} is week in month,
+\item \code{label} is day of month
 }
 \item \code{facet_wrap()} by month
 \item \code{labs()} to remove axis labels for calculated layout variables
 }
 
-and default customisable layers:
+and default customisable components:
 \itemize{
 \item \code{geom_tile()}, \code{geom_text()} to label each day which inherit calculated variables
 \item \code{scale_y_reverse()} to order day in month correctly
@@ -69,18 +72,18 @@ and default customisable layers:
 \item \code{theme_bw_tilecal()} to apply sensible theme defaults
 }
 
-To modify layers alter the \code{.geom} and \code{.scale_coord},
+To modify components alter the \code{.geom} and \code{.scale_coord},
 which inherit the calculate layout mapping by default
 (via the ggplot2 \code{inherit.aes} argument).
 
-To add layers use the ggplot \code{+} function as normal,
-or pass layers to the \code{.layers} argument.
+To additional components use the ggplot \code{+} function as normal,
+or pass components to the \code{.other} argument.
 This can be used to add interactive geoms (e.g. from \code{ggiraph})
 
 To modify the theme, use the ggplot \code{+} function as normal,
 or add additional elements to the list in \code{.theme}.
 
-To remove any of the optional layers, set the argument to any empty \code{list()}
+To remove any of the optional components, set the argument to any empty \code{list()}
 }
 \examples{
 library(dplyr)

@@ -7,7 +7,10 @@
 #' containing dates to be plotted in calendar layout
 #' @param date_col column containing calendar unit dates
 #'
-#' @return tibble with additional calendar layout variables
+#' @return Tibble with additional calendar layout variables:
+#' `TC_year`, `TC_month_label`, `TC_mday`,
+#' `TC_wday_label`, `TC_wday`, `TC_month_week`,
+#' `TC_is_weekend`
 #' @export
 #'
 #' @examples
@@ -23,12 +26,12 @@ calc_calendar_vars <- function(.data, date_col,
       label = TRUE,
       locale = locale
     ),
+    TC_mday = mday({{ date_col }}),
     TC_wday_label = wday({{ date_col }},
       label = TRUE,
       locale = locale,
       week_start = week_start
     ),
-    TC_mday = mday({{ date_col }}),
     TC_wday = wday({{ date_col }}, week_start = week_start),
     TC_month_week = (5 + day({{ date_col }}) +
       wday(floor_date({{ date_col }}, "month"), week_start = week_start)) %/% 7,

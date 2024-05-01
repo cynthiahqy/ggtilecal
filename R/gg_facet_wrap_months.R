@@ -5,37 +5,40 @@
 #' - Calculating variables for calendar layout via `calc_calendar_vars()`
 #' - Returning a ggplot object as per Details.
 #'
-#' Returns a ggplot with the following fixed layers using calculated layout variables:
+#' Returns a ggplot with the following fixed components
+#' using calculated layout variables:
 #' - `aes()` mapping:
-#'    - `x` is day of week, `y` is week in month, `label` is day of month
+#'    - `x` is day of week,
+#'    - `y` is week in month,
+#'    - `label` is day of month
 #' - `facet_wrap()` by month
 #' - `labs()` to remove axis labels for calculated layout variables
 #'
-#' and default customisable layers:
+#' and default customisable components:
 #' - `geom_tile()`, `geom_text()` to label each day which inherit calculated variables
 #' - `scale_y_reverse()` to order day in month correctly
 #' - `scale_x_discrete()` to position weekday labels
 #' - `coord_fixed()` to square each tile
 #' - `theme_bw_tilecal()` to apply sensible theme defaults
 #'
-#' To modify layers alter the `.geom` and `.scale_coord`,
+#' To modify components alter the `.geom` and `.scale_coord`,
 #' which inherit the calculate layout mapping by default
 #' (via the ggplot2 `inherit.aes` argument).
 #'
-#' To add layers use the ggplot `+` function as normal,
-#' or pass layers to the `.layers` argument.
+#' To additional components use the ggplot `+` function as normal,
+#' or pass components to the `.other` argument.
 #' This can be used to add interactive geoms (e.g. from `ggiraph`)
 #'
 #' To modify the theme, use the ggplot `+` function as normal,
 #' or add additional elements to the list in `.theme`.
 #'
-#' To remove any of the optional layers, set the argument to any empty `list()`
+#' To remove any of the optional components, set the argument to any empty `list()`
 #'
 #' @inheritParams ggplot2::facet_wrap
 #' @inheritParams fill_missing_units
 #' @inheritParams calc_calendar_vars
-#' @param .geom,.scale_coord,.theme,.layers
-#'    Customisable lists of ggplot2 layers to add to the plot.
+#' @param .geom,.scale_coord,.theme,.others
+#'    Customisable lists of ggplot2 components to add to the plot.
 #'    An empty `list()` leaves the plot unmodified.
 #'
 #' @return ggplot
@@ -69,10 +72,12 @@ gg_facet_wrap_months <- function(.events_long, date_col,
                                    coord_fixed(expand = TRUE)
                                  ),
                                  .theme = list(theme_bw_tilecal()),
-                                 .layers = list()) {
-  cal_data <- fill_missing_units(.events_long, {{ date_col }}) |>
+                                 .other = list()) {
+  ## warn if duplicate date tiles --> overplotting
+  
+  cal_data <- .events_long |>
+    fill_missing_units({{ date_col }}) |>
     calc_calendar_vars({{ date_col }})
-
 
   base_plot <- cal_data |>
     ggplot2::ggplot(mapping = aes_string(
@@ -85,7 +90,7 @@ gg_facet_wrap_months <- function(.events_long, date_col,
     .geom +
     .scale_coord +
     .theme +
-    .layers
+    .other
 
   base_plot
 }
@@ -106,6 +111,6 @@ gg_facet_wrap_years <- function(.events_long, date_col,
                                   coord_fixed(expand = TRUE)
                                 ),
                                 .theme = list(theme_bw_tilecal()),
-                                .layers = list()) {
+                                .other = list()) {
 
 }

@@ -9,3 +9,8 @@
 * replace `demo_events()` helper with data objects:
   * `demo_events_gpt`
   * `demo_events_overlap`
+
+# ggtilecal 0.1.0
+
+* initial release
+* offers one layout -- `gg_facet_wrap_months()`

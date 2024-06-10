@@ -49,8 +49,9 @@ by the \code{start}, \code{end} and the interval \code{cal_unit}.
 event <- data.frame(
   id = 1,
   start = as.Date("2024-01-05"),
-  end = as.Date("2024-01-10"))
+  end = as.Date("2024-01-10")
+)
 reframe_events(event, start, end)
 demo_events_gpt |>
-    reframe_events(startDate, endDate)
+  reframe_events(startDate, endDate)
 }

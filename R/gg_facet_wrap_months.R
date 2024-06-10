@@ -47,7 +47,7 @@
 #' @examples
 #' library(dplyr)
 #' library(ggplot2)
-#' 
+#'
 #' demo_events_gpt |>
 #'   reframe_events(startDate, endDate) |>
 #'   group_by(unit_date) |>
@@ -74,7 +74,7 @@ gg_facet_wrap_months <- function(.events_long, date_col,
                                  .theme = list(theme_bw_tilecal()),
                                  .other = list()) {
   ## warn if duplicate date tiles --> overplotting
-  
+
   cal_data <- .events_long |>
     fill_missing_units({{ date_col }}) |>
     calc_calendar_vars({{ date_col }})
@@ -93,24 +93,4 @@ gg_facet_wrap_months <- function(.events_long, date_col,
     .other
 
   base_plot
-}
-
-gg_facet_wrap_years <- function(.events_long, date_col,
-                                locale = NULL, week_start = NULL,
-                                nrow = NULL, ncol = NULL,
-                                .geom = list(
-                                  geom_tile(
-                                    color = "grey70",
-                                    fill = "transparent"
-                                  ),
-                                  geom_text(nudge_y = 0.25)
-                                ),
-                                .scale_coord = list(
-                                  scale_y_reverse(),
-                                  scale_x_discrete(position = "top"),
-                                  coord_fixed(expand = TRUE)
-                                ),
-                                .theme = list(theme_bw_tilecal()),
-                                .other = list()) {
-
 }

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">ggtilecal</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -87,7 +87,12 @@ parameter globally.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>tibble with additional calendar layout variables</p>
+<p>Tibble with additional calendar layout variables:
+<code>TC_year</code>, <code>TC_month_label</code>, <code>TC_mday</code>,
+<code>TC_wday_label</code>, <code>TC_wday</code>, <code>TC_month_week</code>,
+<code>TC_is_weekend</code></p>
+
+
     </div>
 
     <div class="section level2">
@@ -95,18 +100,18 @@ parameter globally.</p></dd>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="make_empty_month_days.html">make_empty_month_days</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2024-01-01"</span>, <span class="st">"2024-02-01"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu">calc_calendar_vars</span><span class="op">(</span><span class="va">unit_date</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 60 × 8</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    unit_date  TC_year TC_month_label TC_wday_label TC_mday TC_wday TC_month_week</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2024-01-01    <span style="text-decoration: underline;">2</span>024 Jan            Mon                 1       1             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2024-01-02    <span style="text-decoration: underline;">2</span>024 Jan            Tue                 2       2             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2024-01-03    <span style="text-decoration: underline;">2</span>024 Jan            Wed                 3       3             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2024-01-04    <span style="text-decoration: underline;">2</span>024 Jan            Thu                 4       4             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2024-01-05    <span style="text-decoration: underline;">2</span>024 Jan            Fri                 5       5             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2024-01-06    <span style="text-decoration: underline;">2</span>024 Jan            Sat                 6       6             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2024-01-07    <span style="text-decoration: underline;">2</span>024 Jan            Sun                 7       7             1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2024-01-08    <span style="text-decoration: underline;">2</span>024 Jan            Mon                 8       1             2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2024-01-09    <span style="text-decoration: underline;">2</span>024 Jan            Tue                 9       2             2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2024-01-10    <span style="text-decoration: underline;">2</span>024 Jan            Wed                10       3             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    unit_date  TC_year TC_month_label TC_mday TC_wday_label TC_wday TC_month_week</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;date&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;ord&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2024-01-01    <span style="text-decoration: underline;">2</span>024 Jan                  1 Mon                 1             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2024-01-02    <span style="text-decoration: underline;">2</span>024 Jan                  2 Tue                 2             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2024-01-03    <span style="text-decoration: underline;">2</span>024 Jan                  3 Wed                 3             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2024-01-04    <span style="text-decoration: underline;">2</span>024 Jan                  4 Thu                 4             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2024-01-05    <span style="text-decoration: underline;">2</span>024 Jan                  5 Fri                 5             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2024-01-06    <span style="text-decoration: underline;">2</span>024 Jan                  6 Sat                 6             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2024-01-07    <span style="text-decoration: underline;">2</span>024 Jan                  7 Sun                 7             1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2024-01-08    <span style="text-decoration: underline;">2</span>024 Jan                  8 Mon                 1             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2024-01-09    <span style="text-decoration: underline;">2</span>024 Jan                  9 Tue                 2             2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2024-01-10    <span style="text-decoration: underline;">2</span>024 Jan                 10 Wed                 3             2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 50 more rows</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: TC_is_weekend &lt;lgl&gt;</span></span>
 </code></pre></div>

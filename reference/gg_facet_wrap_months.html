@@ -20,7 +20,7 @@ Returning a ggplot object as per Details.
     
     <a class="navbar-brand me-2" href="../index.html">ggtilecal</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9003</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -75,7 +75,7 @@ Returning a ggplot object as per Details.
 <span>  .scale_coord <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_reverse</a></span><span class="op">(</span><span class="op">)</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>position <span class="op">=</span> <span class="st">"top"</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  .theme <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="theme_bw_tilecal.html">theme_bw_tilecal</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  .layers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  .other <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,8 +106,8 @@ parameter globally.</p></dd>
 <dd><p>Number of rows and columns.</p></dd>
 
 
-<dt>.geom, .scale_coord, .theme, .layers</dt>
-<dd><p>Customisable lists of ggplot2 layers to add to the plot.
+<dt>.geom, .scale_coord, .theme, .other</dt>
+<dd><p>Customisable lists of ggplot2 components to add to the plot.
 An empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> leaves the plot unmodified.</p></dd>
 
 </dl></div>
@@ -119,24 +119,27 @@ An empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>Returns a ggplot with the following fixed layers using calculated layout variables:</p><ul><li><p><code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code> mapping:</p><ul><li><p><code>x</code> is day of week, <code>y</code> is week in month, <code>label</code> is day of month</p></li>
+    <p>Returns a ggplot with the following fixed components
+using calculated layout variables:</p><ul><li><p><code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes()</a></code> mapping:</p><ul><li><p><code>x</code> is day of week,</p></li>
+<li><p><code>y</code> is week in month,</p></li>
+<li><p><code>label</code> is day of month</p></li>
 </ul></li>
 <li><p><code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap()</a></code> by month</p></li>
 <li><p><code><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs()</a></code> to remove axis labels for calculated layout variables</p></li>
-</ul><p>and default customisable layers:</p><ul><li><p><code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text()</a></code> to label each day which inherit calculated variables</p></li>
+</ul><p>and default customisable components:</p><ul><li><p><code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text()</a></code> to label each day which inherit calculated variables</p></li>
 <li><p><code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_reverse()</a></code> to order day in month correctly</p></li>
 <li><p><code><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete()</a></code> to position weekday labels</p></li>
 <li><p><code><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_fixed()</a></code> to square each tile</p></li>
 <li><p><code><a href="theme_bw_tilecal.html">theme_bw_tilecal()</a></code> to apply sensible theme defaults</p></li>
-</ul><p>To modify layers alter the <code>.geom</code> and <code>.scale_coord</code>,
+</ul><p>To modify components alter the <code>.geom</code> and <code>.scale_coord</code>,
 which inherit the calculate layout mapping by default
 (via the ggplot2 <code>inherit.aes</code> argument).</p>
-<p>To add layers use the ggplot <code>+</code> function as normal,
-or pass layers to the <code>.layers</code> argument.
+<p>To additional components use the ggplot <code>+</code> function as normal,
+or pass components to the <code>.other</code> argument.
 This can be used to add interactive geoms (e.g. from <code>ggiraph</code>)</p>
 <p>To modify the theme, use the ggplot <code>+</code> function as normal,
 or add additional elements to the list in <code>.theme</code>.</p>
-<p>To remove any of the optional layers, set the argument to any empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code></p>
+<p>To remove any of the optional components, set the argument to any empty <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code></p>
     </div>
 
     <div class="section level2">

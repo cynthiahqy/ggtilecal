@@ -17,15 +17,13 @@
 #' make_empty_month_days(c("2024-01-01", "2024-02-01")) |>
 #'   calc_calendar_vars(unit_date)
 #' @importFrom lubridate year month day wday mday floor_date
+#' @importFrom tsibble yearmonth
 calc_calendar_vars <- function(.data, date_col,
                                locale = Sys.getlocale("LC_TIME"),
                                week_start = 1) {
   .data |> dplyr::mutate(
     TC_year = year({{ date_col }}),
-    TC_month_label = month({{ date_col }},
-      label = TRUE,
-      locale = locale
-    ),
+    TC_month_label = yearmonth({{ date_col }}),
     TC_mday = mday({{ date_col }}),
     TC_wday_label = wday({{ date_col }},
       label = TRUE,

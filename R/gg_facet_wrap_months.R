@@ -4,7 +4,7 @@
 #' - Padding event list with any missing days via `fill_missing_units()`
 #' - Calculating variables for calendar layout via `calc_calendar_vars()`
 #' - Returning a ggplot object as per Details.
-#'
+#' 
 #' Returns a ggplot with the following fixed components
 #' using calculated layout variables:
 #' - `aes()` mapping:
@@ -13,7 +13,12 @@
 #'    - `label` is day of month
 #' - `facet_wrap()` by month
 #' - `labs()` to remove axis labels for calculated layout variables
-#'
+#' 
+#' for the month facets: 
+#'  - `nrow` the number of month facet rows 
+#'  - or `ncol` the number of month facet columns
+#'  - a labeller function for the monthly facet strip labels, see `label_yearmonth()`
+#' 
 #' and default customisable components:
 #' - `geom_tile()`, `geom_text()` to label each day which inherit calculated variables
 #' - `scale_y_reverse()` to order day in month correctly
@@ -59,6 +64,7 @@
 gg_facet_wrap_months <- function(.events_long, date_col,
                                  locale = NULL, week_start = NULL,
                                  nrow = NULL, ncol = NULL,
+                                 labeller=label_yearmonth("%b"),
                                  .geom = list(
                                    geom_tile(
                                      color = "grey70",
@@ -85,7 +91,7 @@ gg_facet_wrap_months <- function(.events_long, date_col,
       y = "TC_month_week",
       label = "TC_mday"
     )) +
-    facet_wrap(c("TC_month_label"), axes = "all_x", nrow = nrow, ncol = ncol) +
+    facet_wrap(c("TC_month_label"), axes = "all_x", nrow = nrow, ncol = ncol, labeller=labeller) +
     labs(y = NULL, x = NULL) +
     .geom +
     .scale_coord +

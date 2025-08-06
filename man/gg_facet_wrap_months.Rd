@@ -11,6 +11,7 @@ gg_facet_wrap_months(
   week_start = NULL,
   nrow = NULL,
   ncol = NULL,
+  labeller = label_yearmonth("\%b"),
   .geom = list(geom_tile(color = "grey70", fill = "transparent"), geom_text(nudge_y =
     0.25)),
   .scale_coord = list(scale_y_reverse(), scale_x_discrete(position = "top"),
@@ -34,6 +35,17 @@ value is a factor with the first level being the week start (e.g. Sunday if
 parameter globally.}
 
 \item{nrow, ncol}{Number of rows and columns.}
+
+\item{labeller}{A function that takes one data frame of labels and
+returns a list or data frame of character vectors. Each input
+column corresponds to one factor. Thus there will be more than
+one with \code{vars(cyl, am)}. Each output
+column gets displayed as one separate line in the strip
+label. This function should inherit from the "labeller" S3 class
+for compatibility with \code{\link[ggplot2:labeller]{labeller()}}. You can use different labeling
+functions for different kind of labels, for example use \code{\link[ggplot2:label_parsed]{label_parsed()}} for
+formatting facet labels. \code{\link[ggplot2:label_value]{label_value()}} is used by default,
+check it for more details and pointers to other options.}
 
 \item{.geom, .scale_coord, .theme, .other}{Customisable lists of ggplot2 components to add to the plot.
 An empty \code{list()} leaves the plot unmodified.}
@@ -61,6 +73,13 @@ using calculated layout variables:
 }
 \item \code{facet_wrap()} by month
 \item \code{labs()} to remove axis labels for calculated layout variables
+}
+
+for the month facets:
+\itemize{
+\item \code{nrow} the number of month facet rows
+\item or \code{ncol} the number of month facet columns
+\item a labeller function for the monthly facet strip labels, see \code{label_yearmonth()}
 }
 
 and default customisable components:

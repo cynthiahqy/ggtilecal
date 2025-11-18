@@ -56,23 +56,28 @@
 #'   geom_text(aes(label = event_emoji), nudge_y = -0.25, na.rm = TRUE)
 #' @importFrom ggplot2 aes_string geom_tile geom_text facet_wrap labs
 #' scale_y_reverse scale_x_discrete coord_fixed vars
-gg_facet_wrap_months <- function(.events_long, date_col,
-                                 locale = NULL, week_start = NULL,
-                                 nrow = NULL, ncol = NULL,
-                                 .geom = list(
-                                   geom_tile(
-                                     color = "grey70",
-                                     fill = "transparent"
-                                   ),
-                                   geom_text(nudge_y = 0.25)
-                                 ),
-                                 .scale_coord = list(
-                                   scale_y_reverse(),
-                                   scale_x_discrete(position = "top"),
-                                   coord_fixed(expand = TRUE)
-                                 ),
-                                 .theme = list(theme_bw_tilecal()),
-                                 .other = list()) {
+gg_facet_wrap_months <- function(
+  .events_long,
+  date_col,
+  locale = NULL,
+  week_start = NULL,
+  nrow = NULL,
+  ncol = NULL,
+  .geom = list(
+    geom_tile(
+      color = "grey70",
+      fill = "transparent"
+    ),
+    geom_text(nudge_y = 0.25)
+  ),
+  .scale_coord = list(
+    scale_y_reverse(),
+    scale_x_discrete(position = "top"),
+    coord_fixed(expand = TRUE)
+  ),
+  .theme = list(theme_bw_tilecal()),
+  .other = list()
+) {
   ## warn if duplicate date tiles --> overplotting
 
   cal_data <- .events_long |>
@@ -80,12 +85,19 @@ gg_facet_wrap_months <- function(.events_long, date_col,
     calc_calendar_vars({{ date_col }})
 
   base_plot <- cal_data |>
-    ggplot2::ggplot(mapping = aes_string(
-      x = "TC_wday_label",
-      y = "TC_month_week",
-      label = "TC_mday"
-    )) +
-    facet_wrap(c("TC_month_label"), axes = "all_x", nrow = nrow, ncol = ncol) +
+    ggplot2::ggplot(
+      mapping = aes_string(
+        x = .data$TC_wday_label,
+        y = .data$TC_month_week,
+        label = .data$TC_mday
+      )
+    ) +
+    facet_wrap(
+      vars(.data$TC_month_label),
+      axes = "all_x",
+      nrow = nrow,
+      ncol = ncol
+    ) +
     labs(y = NULL, x = NULL) +
     .geom +
     .scale_coord +

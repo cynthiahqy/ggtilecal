@@ -22,6 +22,7 @@ reference:
   - make_empty_month_days
   - fill_missing_units
   - calc_calendar_vars
+  - label_yearmonth
 - title: "Sample Data"
   contents:
   - demo_events_gpt

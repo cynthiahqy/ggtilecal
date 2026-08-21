@@ -43,12 +43,13 @@ make_empty_month_days(c("2024-01-05", "2024-04-04")) |>
 
 ### Customising empty calendars
 
-Layers in `.geom` inherit the internally generated calendar layout mapping variables. `gg_facet_wrap_months()` provides uses lists of sensible default layers that can be easily modified. Customise the look of each calendar tile using `geom_tile()`, and the text number labels using `geom_text()`.
+Layers in `.geom` inherit the internally generated calendar layout mapping variables. `gg_facet_wrap_months()` provides users lists of sensible default layers that can be easily modified. Customise the look of each calendar tile using `geom_tile()`, and the text number labels using `geom_text()`.  Use a ggplot facet strip labeller to customise the formatting of the calendar headers. 
 
 ```{r empty-calendar-custom}
 library(ggplot2)
-make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
+make_empty_month_days(c("2023-12-01", "2024-02-28")) |>
   gg_facet_wrap_months(unit_date,
+                       labeller = label_yearmonth("%B %Y"), 
                        .geom = list(
                          geom_tile(color = "grey70",
                                    fill = "transparent"),
@@ -57,9 +58,9 @@ make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
                        .theme = list(
                          theme_bw_tilecal(),
                          theme(strip.background = element_rect(fill = "#d9d2e9")))
-                       )
+                       ) + 
+  labs(title="Summer 2023-24")
 ```
-
 
 ### Adding more layers to the calendar: Event emojis!
 

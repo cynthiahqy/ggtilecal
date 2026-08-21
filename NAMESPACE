@@ -3,38 +3,47 @@
 export(calc_calendar_vars)
 export(fill_missing_units)
 export(gg_facet_wrap_months)
+export(label_yearmonth)
 export(make_empty_month_days)
 export(make_empty_units)
 export(reframe_events)
 export(theme_bw_tilecal)
 import(rlang)
-importFrom(dplyr,filter)
-importFrom(dplyr,group_by)
-importFrom(dplyr,group_vars)
-importFrom(dplyr,n)
-importFrom(dplyr,pick)
-importFrom(ggplot2,"%+replace%")
-importFrom(ggplot2,aes_string)
-importFrom(ggplot2,coord_fixed)
-importFrom(ggplot2,element_blank)
-importFrom(ggplot2,element_rect)
-importFrom(ggplot2,element_text)
-importFrom(ggplot2,facet_wrap)
-importFrom(ggplot2,geom_text)
-importFrom(ggplot2,geom_tile)
-importFrom(ggplot2,labs)
-importFrom(ggplot2,margin)
-importFrom(ggplot2,scale_x_discrete)
-importFrom(ggplot2,scale_y_reverse)
-importFrom(ggplot2,theme)
-importFrom(ggplot2,theme_bw)
-importFrom(ggplot2,unit)
-importFrom(ggplot2,vars)
+importFrom(dplyr,
+  filter,
+  group_by,
+  group_vars,
+  n,
+  pick
+)
+importFrom(ggplot2,
+  "%+replace%",
+  aes,
+  as_labeller,
+  coord_fixed,
+  element_blank,
+  element_rect,
+  element_text,
+  facet_wrap,
+  geom_text,
+  geom_tile,
+  labs,
+  margin,
+  scale_x_discrete,
+  scale_y_reverse,
+  theme,
+  theme_bw,
+  unit,
+  vars
+)
 importFrom(lifecycle,deprecated)
-importFrom(lubridate,day)
-importFrom(lubridate,floor_date)
-importFrom(lubridate,mday)
-importFrom(lubridate,month)
-importFrom(lubridate,wday)
-importFrom(lubridate,year)
+importFrom(lubridate,
+  day,
+  floor_date,
+  mday,
+  month,
+  wday,
+  year
+)
 importFrom(rlang,sym)
+importFrom(tsibble,yearmonth)

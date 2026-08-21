@@ -4,9 +4,8 @@
 #'
 #' @export
 #'
-#' @importFrom ggplot2 theme theme_bw %+replace%
-#' element_blank element_rect element_text
-#' unit margin
+#' @importFrom ggplot2 theme theme_bw %+replace% element_blank 
+#'    element_rect element_text unit margin
 theme_bw_tilecal <- function(base_size = 11,
                              base_family = "",
                              base_line_size = base_size / 22,

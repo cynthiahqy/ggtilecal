@@ -31,20 +31,22 @@ make_empty_month_days(c("2024-01-05", "2024-04-04")) |>
   gg_facet_wrap_months(unit_date)
 ```
 
-<img src="man/figures/README-empty-calendar-1.png" width="100%" />
+<img src="man/figures/README-empty-calendar-1.png" alt="" width="100%" />
 
 ### Customising empty calendars
 
 Layers in `.geom` inherit the internally generated calendar layout
-mapping variables. `gg_facet_wrap_months()` provides uses lists of
+mapping variables. `gg_facet_wrap_months()` provides users lists of
 sensible default layers that can be easily modified. Customise the look
 of each calendar tile using `geom_tile()`, and the text number labels
-using `geom_text()`.
+using `geom_text()`. Use a ggplot facet strip labeller to customise the
+formatting of the calendar headers.
 
 ``` r
 library(ggplot2)
-make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
+make_empty_month_days(c("2023-12-01", "2024-02-28")) |>
   gg_facet_wrap_months(unit_date,
+                       labeller = label_yearmonth("%B %Y"), 
                        .geom = list(
                          geom_tile(color = "grey70",
                                    fill = "transparent"),
@@ -53,10 +55,11 @@ make_empty_month_days(c("2024-01-05", "2024-06-30")) |>
                        .theme = list(
                          theme_bw_tilecal(),
                          theme(strip.background = element_rect(fill = "#d9d2e9")))
-                       )
+                       ) + 
+  labs(title="Summer 2023-24")
 ```
 
-<img src="man/figures/README-empty-calendar-custom-1.png" width="100%" />
+<img src="man/figures/README-empty-calendar-custom-1.png" alt="" width="100%" />
 
 ### Adding more layers to the calendar: Event emojis!
 
@@ -113,7 +116,7 @@ events_long |>
   gg_facet_wrap_months(unit_date)
 ```
 
-<img src="man/figures/README-empty-calendar-events-1.png" width="100%" />
+<img src="man/figures/README-empty-calendar-events-1.png" alt="" width="100%" />
 
 But maybe we want to indicate which days are event days:
 
@@ -124,7 +127,7 @@ emoji_cal <- events_long |>
 emoji_cal
 ```
 
-<img src="man/figures/README-emoji-cal-events-1.png" width="100%" />
+<img src="man/figures/README-emoji-cal-events-1.png" alt="" width="100%" />
 
 Additional rows are introduced within `gg_facet_wrap_months()` to plot
 the non-event days. Specify `na.rm = TRUE` on subsequent layers to
@@ -174,4 +177,3 @@ if(interactive()){
 - [ggweekly](https://github.com/gadenbuie/ggweekly)
 - [ggcal](https://github.com/jayjacobs/ggcal/blob/master/R/ggcal.R)
 - [davidmasp/calendar-ggplot](https://github.com/davidmasp/calendar-ggplot/blob/main/calendar.R)
-- [calendR](https://github.com/R-CoderDotCom/calendR)

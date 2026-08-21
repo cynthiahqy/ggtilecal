@@ -20,5 +20,15 @@ Useful links:
 \author{
 \strong{Maintainer}: Cynthia A. Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/0000-0002-9218-987X}{ORCID})
 
+Authors:
+\itemize{
+  \item Cynthia A. Huang \email{cynthia.huang@monash.edu} (\href{https://orcid.org/0000-0002-9218-987X}{ORCID})
+}
+
+Other contributors:
+\itemize{
+  \item Christian Klettner [contributor]
+}
+
 }
 \keyword{internal}

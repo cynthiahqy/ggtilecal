@@ -11,6 +11,7 @@ gg_facet_wrap_months(
   week_start = NULL,
   nrow = NULL,
   ncol = NULL,
+  labeller = label_yearmonth("\%b"),
   .geom = list(geom_tile(color = "grey70", fill = "transparent"), geom_text(nudge_y =
     0.25)),
   .scale_coord = list(scale_y_reverse(), scale_x_discrete(position = "top"),
@@ -34,6 +35,8 @@ value is a factor with the first level being the week start (e.g. Sunday if
 parameter globally.}
 
 \item{nrow, ncol}{Number of rows and columns.}
+
+\item{labeller}{A facet labeling function, for the calendar month titles, defaults to \code{label_yearmonth()}}
 
 \item{.geom, .scale_coord, .theme, .other}{Customisable lists of ggplot2 components to add to the plot.
 An empty \code{list()} leaves the plot unmodified.}
@@ -72,6 +75,13 @@ and default customisable components:
 \item \code{theme_bw_tilecal()} to apply sensible theme defaults
 }
 
+for the month facets:
+\itemize{
+\item \code{nrow} the number of month facet rows
+\item or \code{ncol} the number of month facet columns
+\item a labeller function for the monthly facet strip labels, see \code{label_yearmonth()}
+}
+
 To modify components alter the \code{.geom} and \code{.scale_coord},
 which inherit the calculate layout mapping by default
 (via the ggplot2 \code{inherit.aes} argument).
@@ -86,13 +96,14 @@ or add additional elements to the list in \code{.theme}.
 To remove any of the optional components, set the argument to any empty \code{list()}
 }
 \examples{
+\dontrun{
 library(dplyr)
 library(ggplot2)
-
 demo_events_gpt |>
   reframe_events(startDate, endDate) |>
   group_by(unit_date) |>
   slice_min(order_by = duration) |>
-  gg_facet_wrap_months(unit_date) +
-  geom_text(aes(label = event_emoji), nudge_y = -0.25, na.rm = TRUE)
+  gg_facet_wrap_months(unit_date, 
+                       labeller=label_yearmonth("\%b \%Y")) +
+  geom_text(aes(label = event_emoji), nudge_y = -0.25, na.rm = TRUE) } 
 }

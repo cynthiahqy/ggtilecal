@@ -1,10 +1,11 @@
 Package: ggtilecal
 Title: Create static (and interactive) overview calendars using ggplot2
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
-    person(given = "Cynthia A.", family = "Huang",
+    c(person(given = "Cynthia A.", family = "Huang",
           email = "cynthia.huang@monash.edu", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0002-9218-987X"))
+           comment = c(ORCID = "0000-0002-9218-987X")), 
+      person("Christian", "Klettner", role = "ctb"))
 Description: Creates tile-based calendar layouts using ggplot2 facets
         and tiles. Calculates calendar layout positioning variables,
         and generates customisable ggplot2 calendars for specified time
@@ -12,7 +13,6 @@ Description: Creates tile-based calendar layouts using ggplot2 facets
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
 Imports: 
     anytime,
     cli,
@@ -22,7 +22,8 @@ Imports:
     lubridate,
     rlang,
     tibble,
-    tidyselect
+    tidyselect,
+    tsibble
 Suggests: 
     emoji,
     lorem,
@@ -31,3 +32,4 @@ URL: https://cynthiahqy.github.io/ggtilecal/, https://github.com/cynthiahqy/ggti
 BugReports: https://github.com/cynthiahqy/ggtilecal
 Depends: R (>= 2.10)
 LazyData: true
+Config/roxygen2/version: 8.1.0

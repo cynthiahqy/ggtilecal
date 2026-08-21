@@ -1,0 +1,23 @@
+# Changelog
+
+## ggtilecal 0.0.0.9002
+
+- improves
+  [`reframe_events()`](https://cynthiahqy.github.io/ggtilecal/reference/reframe_events.md)
+  helper:
+  - adds `id_cols` arg to make internal grouping operation explicit
+  - add informative error messages for when `id_cols` don’t unique
+    identify event rows
+    ([\#3](https://github.com/cynthiahqy/ggtilecal/issues/3))
+
+## ggtilecal 0.0.0.9003
+
+- replace `demo_events()` helper with data objects:
+  - `demo_events_gpt`
+  - `demo_events_overlap`
+
+## ggtilecal 0.1.0
+
+- initial release
+- offers one layout –
+  [`gg_facet_wrap_months()`](https://cynthiahqy.github.io/ggtilecal/reference/gg_facet_wrap_months.md)
